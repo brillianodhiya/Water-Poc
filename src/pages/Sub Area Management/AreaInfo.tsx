@@ -80,7 +80,7 @@ const AreaInfo: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Detail Area </title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       {/* <Card
         style={{

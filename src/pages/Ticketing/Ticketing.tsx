@@ -75,7 +75,7 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Ticket</title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <Divider
         style={{

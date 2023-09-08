@@ -17,7 +17,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'AAT',
   pwa: false,
-  logo: '/logos.png',
+  logo: '/logoaat.png',
   iconfontUrl: '',
   splitMenus: true,
 };

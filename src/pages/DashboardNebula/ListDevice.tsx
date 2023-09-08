@@ -62,7 +62,7 @@ const ListDevice: React.FC<Props> = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Dashboard </title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <Divider
         style={{

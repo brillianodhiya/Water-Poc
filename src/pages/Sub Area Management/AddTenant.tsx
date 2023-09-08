@@ -149,7 +149,7 @@ const AddTenant: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>BITA IoT Platform | Add Tenant</title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <Spin spinning={loading}>
         <Form form={form} name="add-area" onFinish={onFinish} layout="vertical">

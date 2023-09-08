@@ -153,7 +153,7 @@ const AddDevice: React.FC = () => {
           <Helmet>
             <meta charSet="utf-8" />
             <title>AAT | Device</title>
-            <link rel="icon" href="/logos.png" type="image/x-icon" />
+            <link rel="icon" href="/logoaat.png" type="image/x-icon" />
           </Helmet>
           <Space style={{ cursor: 'pointer' }} align="start" size={'large'}>
             <ArrowLeftOutlined

@@ -130,7 +130,7 @@ const Login: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Login</title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <div className={styles.container}>
         <div className={styles.lang} data-lang>
@@ -138,7 +138,7 @@ const Login: React.FC = () => {
         </div>
         <div className={styles.content}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <img alt="logo" src="/logos.png" width={250} />
+            <img alt="logo" src="/logoaat.png" width={250} />
           </div>
           <LoginForm
             // logo={<img alt="logo" src="/nebula.svg" />}

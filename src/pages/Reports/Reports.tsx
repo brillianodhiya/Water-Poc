@@ -142,7 +142,7 @@ const Reports: React.FC = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       {/* <Room isFocused={true} /> */}
       <PageContainer

@@ -57,7 +57,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Dashboard</title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <Spin spinning={loading}>
         <Row

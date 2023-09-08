@@ -155,7 +155,7 @@ const EditCompany: React.FC<Props> = ({}) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | User</title>
-        <link rel="icon" href="/logos.png" type="image/x-icon" />
+        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ paddingTop: 0, marginTop: 0 }} />
       <Spin spinning={loading}>
