@@ -167,7 +167,7 @@ const MultiLine: React.FC<Props> = () => {
   return (
     <Card>
       <Typography.Title level={5} style={{ marginBottom: '-10px' }}>
-        Produksi Air bersih
+        Tenant Consumption
       </Typography.Title>
       <Spin spinning={loading}>
         <Row justify="space-between">

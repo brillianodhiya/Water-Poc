@@ -331,7 +331,7 @@ export async function getProduksiAir(options: object | undefined) {
 
   try {
     const { data } = await api.post<APIBadiklat.ApiListAlert>(
-      '/dashboard/grafik/internal/produksi',
+      '/dashboard/grafik/internal/consumption',
       {
         ...options,
       },

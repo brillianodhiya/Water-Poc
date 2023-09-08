@@ -16,7 +16,7 @@ export const Grafik: FunctionComponent<ViewLogTypes> = ({}) => {
 
   return (
     <>
-      <Space align="start" style={{ marginBottom: 10 }}>
+      {/* <Space align="start" style={{ marginBottom: 10 }}>
         <Typography.Title level={4}>Devices</Typography.Title>
         <Segmented
           onChange={(value) => {
@@ -25,25 +25,25 @@ export const Grafik: FunctionComponent<ViewLogTypes> = ({}) => {
           value={segment}
           size={'middle'}
           options={[
-            // {
-            //   label: 'Production',
-            //   value: 'internal',
-            // },
-            // {
-            //   label: 'Quality',
-            //   value: 'external',
-            // },
+            {
+              label: 'Production',
+              value: 'internal',
+            },
+            {
+              label: 'Quality',
+              value: 'external',
+            },
             {
               label: 'Tenant Consumption',
               value: 'tenant_consumption',
             },
-            // {
-            //   label: 'Water Losses',
-            //   value: 'water_losses',
-            // },
+            {
+              label: 'Water Losses',
+              value: 'water_losses',
+            },
           ]}
         />
-      </Space>
+      </Space> */}
       {segment == 'internal' ? (
         <InternalDevice />
       ) : segment == 'tenant_consumption' ? (

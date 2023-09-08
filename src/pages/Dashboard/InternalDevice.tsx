@@ -8,7 +8,7 @@ export const InternalDevice: React.FC<Props> = () => {
   return (
     <>
       <MultiLine />
-      <PemakaianAir />
+      {/* <PemakaianAir /> */}
       {/* <TekananAir /> */}
     </>
   );
