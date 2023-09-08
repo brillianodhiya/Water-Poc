@@ -312,8 +312,8 @@ const TenantInfo: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | Detail Tenant </title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | Detail Tenant </title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       {/* <Card
         style={{

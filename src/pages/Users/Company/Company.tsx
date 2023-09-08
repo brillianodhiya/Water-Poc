@@ -91,8 +91,8 @@ const Client: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | User</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | User</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ paddingTop: 0, marginTop: 0 }} />
       <Segmented

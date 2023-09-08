@@ -15,9 +15,9 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'BITA',
+  title: 'AAT',
   pwa: false,
-  logo: '/logo.png',
+  logo: '/logos.png',
   iconfontUrl: '',
   splitMenus: true,
 };

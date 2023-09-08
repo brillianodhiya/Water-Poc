@@ -161,8 +161,8 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA Platform | Dashboard</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT Platform | Dashboard</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
 
       <ModalViewDetailNotification
@@ -836,12 +836,12 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                   data={dataAlert.alert_system}
                 />
               </Col>
-              <Col span={24}>
+              {/* <Col span={24}>
                 <WaterPressure loading={loading} dataWaterPressure={dataAlert.water_pressure} />
               </Col>
               <Col span={24}>
                 <WaterPressureVacuum loading={loading} dataWaterPressure={dataAlert.water_vakum} />
-              </Col>
+              </Col> */}
               {/* <Col span={24}>
                 <PemakaianTenant
                   loading={loading}
@@ -851,7 +851,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
               </Col> */}
             </Row>
           </Col>
-          <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
+          {/* <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
             <ProduksiAir
               loading={loading}
               air_bersih={dataAlert.produksi_air.air_bersih}
@@ -869,7 +869,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
           </Col>
           <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
             <WaterLosses loading={loading} />
-          </Col>
+          </Col> */}
         </Row>
       ) : (
         <Grafik />

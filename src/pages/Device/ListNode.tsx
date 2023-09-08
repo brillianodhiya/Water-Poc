@@ -214,8 +214,8 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | Device</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | Device</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <ModalViewLog
         device_id={dataModal.id}

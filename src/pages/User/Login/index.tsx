@@ -93,7 +93,7 @@ const Login: React.FC = () => {
 
         return;
       } else {
-        message.error(msg.message);
+        // message.error(msg.message);
       }
       console.log(msg);
       // 如果失败去设置用户错误信息
@@ -129,8 +129,8 @@ const Login: React.FC = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | Login</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | Login</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <div className={styles.container}>
         <div className={styles.lang} data-lang>
@@ -138,7 +138,7 @@ const Login: React.FC = () => {
         </div>
         <div className={styles.content}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <img alt="logo" src="/logo.png" />
+            <img alt="logo" src="/logos.png" width={250} />
           </div>
           <LoginForm
             // logo={<img alt="logo" src="/nebula.svg" />}

@@ -25,22 +25,22 @@ export const Grafik: FunctionComponent<ViewLogTypes> = ({}) => {
           value={segment}
           size={'middle'}
           options={[
-            {
-              label: 'Production',
-              value: 'internal',
-            },
-            {
-              label: 'Quality',
-              value: 'external',
-            },
+            // {
+            //   label: 'Production',
+            //   value: 'internal',
+            // },
+            // {
+            //   label: 'Quality',
+            //   value: 'external',
+            // },
             {
               label: 'Tenant Consumption',
               value: 'tenant_consumption',
             },
-            {
-              label: 'Water Losses',
-              value: 'water_losses',
-            },
+            // {
+            //   label: 'Water Losses',
+            //   value: 'water_losses',
+            // },
           ]}
         />
       </Space>

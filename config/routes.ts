@@ -146,12 +146,12 @@ export default [
     // icon: 'smile',
     component: './Users/Users',
   },
-  {
-    path: '/settings',
-    name: 'Setting',
-    // icon: 'smile',
-    component: './Settings/Settings',
-  },
+  // {
+  //   path: '/settings',
+  //   name: 'Setting',
+  //   // icon: 'smile',
+  //   component: './Settings/Settings',
+  // },
   // {
   //   path: '/users/company',
   //   // name: 'User',

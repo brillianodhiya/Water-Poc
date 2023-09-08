@@ -73,8 +73,8 @@ const ChangePassword: React.FC<Props> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | User</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | User</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <div
         style={{

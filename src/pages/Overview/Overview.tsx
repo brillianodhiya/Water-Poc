@@ -54,7 +54,7 @@ const Overview: React.FC = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Tabs
         activeKey={TabActive}

@@ -83,14 +83,14 @@ export const WaterUsage: FunctionComponent<ViewLogTypes> = ({ loading, data }) =
                   {data.pemakaian_air} m3
                 </Typography>
                 <Typography style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.45)' }}>
-                  The total consumption of clean water by tenants.
+                  The total consumption of water by tenants.
                 </Typography>
               </div>
             </Space>
           </Space>
         </div>
       </Spin>
-      <Spin spinning={loading}>
+      {/* <Spin spinning={loading}>
         <div
           style={{
             border: '1px solid rgba(0, 0, 0, 0.08)',
@@ -181,7 +181,7 @@ export const WaterUsage: FunctionComponent<ViewLogTypes> = ({ loading, data }) =
             </Space>
           </Space>
         </div>
-      </Spin>
+      </Spin> */}
     </Card>
   );
 };

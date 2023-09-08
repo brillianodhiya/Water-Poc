@@ -46,7 +46,7 @@ const SettingsManagement: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>BITA IoT Platform | Settings</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Spin spinning={loading}>
         <Row gutter={[16, 16]}>

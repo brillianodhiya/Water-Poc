@@ -116,8 +116,8 @@ const Area: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | User</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | User</title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ padding: 0, margin: 0 }} />
       <Row gutter={18} style={{ marginTop: 20 }}>

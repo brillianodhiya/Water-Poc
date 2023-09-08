@@ -25,7 +25,7 @@ const SettingsManagement: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>BITA IoT Platform | Gateway</title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Row gutter={[8, 8]}>
         <Col

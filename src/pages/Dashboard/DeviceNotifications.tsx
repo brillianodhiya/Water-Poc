@@ -49,8 +49,8 @@ const DeviceNotifications: React.FC = (props: Props) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | Dashboard </title>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <title>AAT | Dashboard </title>
+        <link rel="icon" href="/logos.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ marginTop: 0, padding: 0 }} />
       <Row gutter={[16, 16]} justify="start">
