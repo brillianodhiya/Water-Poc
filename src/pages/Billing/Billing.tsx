@@ -225,7 +225,7 @@ const Billing: React.FC = ({}) => {
             } else if (record.status === 'unpaid') {
               return <Badge color={'orange'} text="Unpaid" />;
             } else if (record.status === 'cancel') {
-              return <Badge color={'red'} text="Paid" />;
+              return <Badge color={'red'} text="Cancel" />;
             } else {
               return <Badge color={'cyan'} text="Paid" />;
             }
