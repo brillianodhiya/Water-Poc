@@ -64,6 +64,7 @@ export const ApiEditTenant = async (values: {
   phone: string;
   email: string;
   id: number;
+  member_id: number;
   username: string;
   password: string;
   nama_unit: string;
@@ -81,6 +82,7 @@ export const ApiEditTenant = async (values: {
         latitude: values.latitude,
         longitude: values.longitude,
         // customer_id: values.customer_id,
+        member_id: values.member_id,
         type: values.type,
         area_name: values.area_name,
         phone: values.phone,
