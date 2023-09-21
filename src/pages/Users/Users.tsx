@@ -5,10 +5,9 @@ import { Button, Col, Divider, message, Modal, Row } from 'antd';
 import { UsersTable } from '@/components/Table/UsersTable';
 import { ApiDeleteUser, getListUser } from '@/services/badiklat/user';
 import { ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
-import { history } from '@umijs/max';
+import { Helmet, history } from '@umijs/max';
 import queryparse from 'query-string';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 const { confirm } = Modal;
 

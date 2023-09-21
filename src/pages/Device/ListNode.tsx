@@ -214,7 +214,7 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT | Device</title>
+        <title>AAT IoT Platform | Device</title>
         <link
           rel="icon"
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"

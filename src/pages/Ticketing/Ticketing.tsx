@@ -74,7 +74,7 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT | Ticket</title>
+        <title>AAT IoT Platform | Ticket</title>
         <link
           rel="icon"
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"

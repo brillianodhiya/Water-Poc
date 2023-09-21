@@ -246,8 +246,8 @@ const AreaSettings: React.FC<{
                 </Row>
               </Spin>
             </Card>
-            {/* <Row gutter={[16, 16]} justify="space-between" style={{ paddingTop: 20 }} wrap>
-              <Col span={20}>PPN </Col>
+            <Row gutter={[16, 16]} justify="space-between" style={{ paddingTop: 20 }} wrap>
+              {/* <Col span={20}>PPN </Col>
               <Col span={4}>
                 {editSettings ? (
                   <>
@@ -304,7 +304,7 @@ const AreaSettings: React.FC<{
                 ) : (
                   <Typography>{dataArea.min_charge_gas}</Typography>
                 )}
-              </Col>
+              </Col> */}
               <Col span={20}>
                 <Typography>Min. Charge Water (M3)</Typography>
               </Col>
@@ -328,7 +328,7 @@ const AreaSettings: React.FC<{
                   <Typography>{dataArea.min_charge_water}</Typography>
                 )}
               </Col>
-              <Col span={20}>
+              {/* <Col span={20}>
                 <Typography>Min. Charge Electrict CT (Kwh)</Typography>
               </Col>
               <Col span={4}>
@@ -373,8 +373,8 @@ const AreaSettings: React.FC<{
                 ) : (
                   <Typography>{dataArea.min_charge_electrict_non_ct}</Typography>
                 )}
-              </Col>
-            </Row> */}
+              </Col> */}
+            </Row>
           </Col>
 
           {/* <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>

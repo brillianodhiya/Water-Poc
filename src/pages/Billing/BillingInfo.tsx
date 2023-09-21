@@ -136,7 +136,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
     >
       <Spin spinning={loading}>
         <Helmet>
-          <title>AAT | Detail Billing </title>
+          <title>AAT IoT Platform | Detail Billing </title>
           <link
             rel="icon"
             href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
