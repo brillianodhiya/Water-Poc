@@ -1,5 +1,11 @@
-import { EditOutlined, EllipsisOutlined, ExportOutlined, SearchOutlined } from '@ant-design/icons';
+import { AreaDropdown } from '@/components/CustomInput/AreaDropdown';
+import { TenantDropdown } from '@/components/CustomInput/TenantDropdown';
+import { exportExcelv2AntTable } from '@/components/ExcelExport/ExportExcel';
+import { converNumberSmNotFixed } from '@/components/config.usage';
+import { getBilling } from '@/services/nebula/billing';
+import { ExportOutlined, EyeOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
+import { history } from '@umijs/max';
 import {
   Badge,
   Button,
@@ -7,9 +13,7 @@ import {
   Col,
   DatePicker,
   Divider,
-  Dropdown,
   Input,
-  Menu,
   Row,
   Select,
   Space,
@@ -17,7 +21,9 @@ import {
   Typography,
 } from 'antd';
 import Column from 'antd/lib/table/Column';
+import moment from 'moment';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -34,142 +40,44 @@ type DataType = {
   usage: string;
   status: string;
   amount: string;
+  id: number;
 };
 
-const dataSource = [
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Moore and Sons',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'New',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'GAMATECHNO',
-    tenant_name: 'PRODUCTION UNIT JAKARTA',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Paid',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Breitenberg - Kub',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Unpaid',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Schowalter LLC',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Cancel',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Bradtke, Abbott and Krajcik',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'New',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'GAMATECHNO',
-    tenant_name: 'PRODUCTION UNIT JAKARTA',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Paid',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Okuneva, Larkin and Macejkovic',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Unpaid',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'GAMATECHNO',
-    tenant_name: 'PRODUCTION UNIT JAKARTA',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Cancel',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Larson - Huels',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'New',
-    amount: '156.00',
-  },
-  {
-    key: '1',
-    no_invoice: 'We.__DEV__.400-INV-020622-400G-I',
-    date: 'Nov 07 2022',
-    area_name: 'Patra Logistik',
-    tenant_name: 'Schaden Group',
-    periode: 'Nov 07 2022',
-    usage: '456.00',
-    status: 'Paid',
-    amount: '156.00',
-  },
-];
-
-const Billing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
+const Billing: React.FC<{ isFocused: boolean }> = ({}) => {
   const [dataBilling, setDataBilling] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [dataEdit, setDataEdit] = React.useState<object>({});
-  const [dataFill, setDataFill] = React.useState<any[]>([]);
+  const [areaId, setAreaId] = React.useState(0);
+  const [tenantId, setTenantId] = React.useState(0);
+  const [periode, setPeriode] = React.useState<any>(undefined);
+  const [status, setStatus] = React.useState('all');
+  const [search, setSearch] = React.useState('');
 
   const getData = async () => {
     setLoading(true);
-    // const data = await
-    // console.log(data);
+    const data = await getBilling({
+      params: {
+        area_id: areaId ? areaId : undefined,
+        tenant_id: tenantId ? tenantId : undefined,
+        periode: periode ? periode.format('YYYY-MM') : undefined,
+        status: status !== 'all' ? status : undefined,
+        search: search ? search : undefined,
+      },
+    });
+    console.log(data);
     setLoading(false);
-    // if (!data.error) {
-    //   setDataBilling(data.data);
-    //   setDataFill(data.data);
-    // }
+    if (!data.error) {
+      setDataBilling(data.data);
+    }
   };
 
   React.useEffect(() => {
-    setDataBilling(dataSource);
-    // getData();
-  }, []);
+    // setDataBilling(dataSource);
+    getData();
+  }, [areaId, tenantId, periode, status, search]);
+
+  const handleExportCsv = () => {
+    exportExcelv2AntTable()('billing', 'Billing ', 'Billing ' + moment().unix());
+  };
 
   return (
     <PageContainer
@@ -189,16 +97,25 @@ const Billing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
           background: ' rgba(230, 247, 255, 0.5)',
         }}
       >
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Nebula Apps | Billing</title>
+          <link
+            rel="icon"
+            href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+            type="image/x-icon"
+          />
+        </Helmet>
         <Row gutter={[16, 16]} justify="space-between" align={'bottom'}>
           <Col>
             <Space direction="vertical">
               <Typography>Search</Typography>
-              <Input
-                suffix={<SearchOutlined />}
+              <Input.Search
+                onSearch={(v) => setSearch(v)}
                 style={{
                   borderRadius: '20px',
                 }}
-                placeholder="Search"
+                placeholder="No Invoice"
               />
             </Space>
           </Col>
@@ -206,13 +123,13 @@ const Billing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
             <Space direction="vertical">
               <Typography>Status</Typography>
               <Select
-                defaultValue="all"
+                value={status}
                 style={{
-                  width: 250,
+                  width: 150,
                   borderRadius: 100,
                 }}
                 onChange={(v) => {
-                  console.log(v);
+                  setStatus(v);
                 }}
                 options={[
                   {
@@ -241,37 +158,44 @@ const Billing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
           </Col>
           <Col>
             <Space direction="vertical">
-              <Typography>Customer</Typography>
-              <Select
-                defaultValue="area"
+              <Typography>Area</Typography>
+              <AreaDropdown
+                useAll={true}
+                defaultArea0={false}
+                value={areaId}
+                onChange={(val) => setAreaId(val)}
+                type="rounded"
+                disabled={false}
                 style={{
-                  width: 200,
-                  borderRadius: 100,
+                  width: '200px',
                 }}
-                onChange={(v) => {
-                  console.log(v);
-                }}
-                options={[
-                  {
-                    value: 'area',
-                    label: 'Area',
-                  },
-                  {
-                    value: 'tenant',
-                    label: 'Tenant',
-                  },
-                ]}
               />
             </Space>
           </Col>
           <Col>
             <Space direction="vertical">
-              <Typography>Search</Typography>
-              <DatePicker style={{ width: '200px' }} />
+              <Typography>Tenant</Typography>
+              <TenantDropdown
+                useAll={true}
+                onChange={(val) => setTenantId(val)}
+                style={{
+                  width: '200px',
+                }}
+                type="rounded"
+                areaId={areaId == 0 ? undefined : areaId}
+                value={tenantId}
+                disabled={false}
+              />
+            </Space>
+          </Col>
+          <Col>
+            <Space direction="vertical">
+              <Typography>Priode</Typography>
+              <DatePicker.MonthPicker value={periode} onChange={(v: any) => setPeriode(v)} />
             </Space>
           </Col>
           <Col style={{ paddingTop: 20 }}>
-            <Button type="primary" icon={<ExportOutlined />}>
+            <Button type="primary" icon={<ExportOutlined />} onClick={handleExportCsv}>
               Export
             </Button>
           </Col>
@@ -282,79 +206,146 @@ const Billing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
         loading={loading}
         style={{ borderRadius: 8, border: '1px solid #f0f0f0' }}
       >
-        <Column title="No Invoice" dataIndex="no_invoice" key="no_invoice" />
+        <Column title="No Invoice" dataIndex="invoice" key="invoice" />
 
+        <Column title="Area Name" dataIndex={['Nebula_Area', 'area_name']} key="area_name" />
+
+        <Column title="Tenant" dataIndex={['Nebula_Tenant', 'name']} key="tenant_name" />
+        <Column title="Periode" dataIndex="periode" key="periode" />
         <Column
-          title="Date"
-          dataIndex="date"
-          key="date"
-          render={(val) => {
-            return <>{val && val !== '' ? val : '-'}</>;
+          title="Usage"
+          dataIndex="usage"
+          key="usage"
+          render={(_) => {
+            return converNumberSmNotFixed(_);
           }}
         />
-        <Column title="Area Name" dataIndex="area_name" key="area_name" />
-        <Column title="Tenant" dataIndex="tenant_name" key="tenant_name" />
-        <Column title="Periode" dataIndex="periode" key="periode" />
-        <Column title="Usage" dataIndex="usage" key="usage" />
         <Column
           title="Status"
           dataIndex="status"
           key="status"
           render={(_, record: DataType) => {
-            if (record.status === 'New') {
-              return <Badge color={'cyan'} text={record.status} />;
-            } else if (record.status === 'Paid') {
-              return <Badge color={'green'} text={record.status} />;
-            } else if (record.status === 'Unpaid') {
-              return <Badge color={'orange'} text={record.status} />;
-            } else if (record.status === 'Cancel') {
-              return <Badge color={'red'} text={record.status} />;
+            if (record.status === 'new') {
+              return <Badge color={'cyan'} text="New" />;
+            } else if (record.status === 'paid') {
+              return <Badge color={'green'} text="Paid" />;
+            } else if (record.status === 'unpaid') {
+              return <Badge color={'orange'} text="Unpaid" />;
+            } else if (record.status === 'cancel') {
+              return <Badge color={'red'} text="Paid" />;
             } else {
-              return <Badge color={'cyan'} text={record.status} />;
+              return <Badge color={'cyan'} text="Paid" />;
             }
           }}
         />
-        <Column title="Amount" dataIndex="amount" key="amount" />
+        <Column
+          title="Amount"
+          dataIndex="amount"
+          key="amount"
+          render={(_) => {
+            return 'Rp.' + converNumberSmNotFixed(_) + ',00';
+          }}
+        />
         <Column
           title="Action"
           key="action"
           render={(_, record: DataType) => {
+            // return (
+            //   <Dropdown
+            //     overlay={
+            //       <Menu
+            //         onClick={(info) => {
+            //           if (info.key == 'edit') {
+            //             // setDataEdit(val);
+            //           }
+            //         }}
+            //         items={[
+            //           {
+            //             label: (
+            //               <Button
+            //                 size="small"
+            //                 type="link"
+            //                 icon={<EditOutlined />}
+            //                 style={{
+            //                   color: '#000',
+            //                 }}
+            //               >
+            //                 Edit
+            //               </Button>
+            //             ),
+            //             key: 'edit',
+            //           },
+            //         ]}
+            //       />
+            //     }
+            //     trigger={['click']}
+            //   >
+            //     <Button className="edit-icon" shape="circle" icon={<EllipsisOutlined />} />
+            //   </Dropdown>
+            // );
             return (
-              <Dropdown
-                overlay={
-                  <Menu
-                    onClick={(info) => {
-                      if (info.key == 'edit') {
-                        // setDataEdit(val);
-                      }
-                    }}
-                    items={[
-                      {
-                        label: (
-                          <Button
-                            size="small"
-                            type="link"
-                            icon={<EditOutlined />}
-                            style={{
-                              color: '#000',
-                            }}
-                          >
-                            Edit
-                          </Button>
-                        ),
-                        key: 'edit',
-                      },
-                    ]}
-                  />
-                }
-                trigger={['click']}
+              <Button
+                size="small"
+                type="primary"
+                ghost
+                onClick={() => {
+                  console.log(record);
+                  history.push('/billing/detail/' + record.id);
+                }}
               >
-                <Button className="edit-icon" shape="circle" icon={<EllipsisOutlined />} />
-              </Dropdown>
+                <EyeOutlined />
+                View Detail
+              </Button>
             );
           }}
         />
       </Table>
+
+      <div style={{ opacity: 0, position: 'fixed' }}>
+        <a id="dlink"></a>
+
+        <Table id="billing" dataSource={dataBilling} loading={loading} pagination={false}>
+          <Column title="No Invoice" dataIndex="invoice" key="invoice" />
+
+          <Column title="Area Name" dataIndex={['Nebula_Area', 'area_name']} key="area_name" />
+          <Column title="Tenant" dataIndex={['Nebula_Tenant', 'name']} key="tenant_name" />
+          <Column title="Periode" dataIndex="periode" key="periode" />
+          <Column
+            title="Usage"
+            dataIndex="usage"
+            key="usage"
+            render={(_) => {
+              return converNumberSmNotFixed(_);
+            }}
+          />
+          <Column
+            title="Status"
+            dataIndex="status"
+            key="status"
+            render={(_, record: DataType) => {
+              if (record.status === 'new') {
+                return <Badge color={'cyan'} text="New" />;
+              } else if (record.status === 'paid') {
+                return <Badge color={'green'} text="Paid" />;
+              } else if (record.status === 'unpaid') {
+                return <Badge color={'orange'} text="Unpaid" />;
+              } else if (record.status === 'cancel') {
+                return <Badge color={'red'} text="Paid" />;
+              } else {
+                return <Badge color={'cyan'} text="Paid" />;
+              }
+            }}
+          />
+          <Column
+            title="Amount"
+            dataIndex="amount"
+            key="amount"
+            render={(_) => {
+              return 'Rp.' + converNumberSmNotFixed(_) + ',00';
+            }}
+          />
+        </Table>
+      </div>
     </PageContainer>
   );
 };

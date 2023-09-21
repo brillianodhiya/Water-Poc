@@ -117,7 +117,11 @@ const Area: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | User</title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
       <Divider style={{ padding: 0, margin: 0 }} />
       <Row gutter={18} style={{ marginTop: 20 }}>

@@ -134,12 +134,17 @@ export default [
   //   // icon: 'smile',
   //   component: './Ticketing/AddTicket',
   // },
-  // {
-  //   path: '/billing',
-  //   name: 'Billing',
-  //   // icon: 'smile',
-  //   component: './Billing/Billing',
-  // },
+  {
+    path: '/billing',
+    name: 'Billing',
+    // icon: 'smile',
+    component: './Billing/Billing',
+  },
+  {
+    path: '/billing/detail/:id',
+    // icon: 'smile',
+    component: './Billing/BillingInfo',
+  },
   {
     path: '/users',
     name: 'User',

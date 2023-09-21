@@ -17,15 +17,19 @@ const SettingsManagement: React.FC = () => {
   return (
     <PageContainer
       title="Gateway"
-      content="This is a gateway management system for BITA's IOT platform."
+      content="This is a gateway management system for AAT's IOT platform."
       style={{
         borderTop: '1px solid rgba(0, 0, 0, 0.06)',
       }}
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA IoT Platform | Gateway</title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <title>AAT IoT Platform | Gateway</title>
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
       <Row gutter={[8, 8]}>
         <Col

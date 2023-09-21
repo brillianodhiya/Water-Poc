@@ -50,7 +50,11 @@ const Device: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Device</title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
       {/* <AddDeviceForm
           title={'Add Device'}

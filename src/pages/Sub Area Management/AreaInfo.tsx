@@ -1,5 +1,6 @@
+import AreaPricing from '@/components/AreaTabs/AreaPricing';
 import AreaSettings from '@/components/AreaTabs/AreaSettings';
-import { AreaIcon } from '@/components/Icons/Area';
+import MemberLevel from '@/components/AreaTabs/MemberLevel';
 import { UnionIcon } from '@/components/Icons/Union';
 import ProfileSide from '@/components/ProfileSide/ProfileSide';
 import { getAreaInfo } from '@/services/nebula/area';
@@ -14,7 +15,18 @@ import {
 } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { history, useLocation } from '@umijs/max';
-import { Avatar, Breadcrumb, Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd';
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Row,
+  Segmented,
+  Space,
+  Tooltip,
+  Typography,
+} from 'antd';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -24,7 +36,7 @@ type LocationStateTypes = {
 
 const AreaInfo: React.FC = () => {
   // const [activeKey, setActiveKey] = React.useState('0');
-  // const [segmentedKey, setSegmentedKey] = React.useState('Area Settings');
+  const [segmentedKey, setSegmentedKey] = React.useState('Area Settings');
   const searchParams = useLocation();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [dataArea, setDataArea] = React.useState<any>([]);
@@ -80,7 +92,11 @@ const AreaInfo: React.FC = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Detail Area </title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
       {/* <Card
         style={{
@@ -233,7 +249,37 @@ const AreaInfo: React.FC = () => {
               </Col>
             </Row>
           </Card>
-          <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} />
+          <Segmented
+            options={[
+              'Area Settings',
+              'Pricing',
+              'Member Level',
+              // 'Pricing Postpaid',
+              // 'Pricing Repaid',
+            ]}
+            onResize={undefined}
+            onResizeCapture={undefined}
+            size="large"
+            block
+            style={{
+              maxWidth: 450,
+              marginTop: 20,
+              marginBottom: 20,
+              padding: 6,
+              backgroundImage:
+                'radial-gradient(circle at 97% 10%, #EBF2FF 0%, #F5F8FF 28%, #EBF1FF 124%)',
+            }}
+            onChange={(val) => setSegmentedKey(val.toString())}
+          />
+          {/* <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} /> */}
+          {dataArea.id &&
+            (segmentedKey == 'Area Settings' ? (
+              <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} />
+            ) : segmentedKey == 'Member Level' ? (
+              <MemberLevel getData={getData} dataArea={dataArea} loadingArea={loading} />
+            ) : segmentedKey == 'Pricing' ? (
+              <AreaPricing getData={getData} dataArea={dataArea} loadingArea={loading} />
+            ) : null)}
         </Col>
 
         <Col xs={24} sm={24} md={24} lg={8} xl={6} xxl={6}>

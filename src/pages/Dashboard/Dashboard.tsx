@@ -162,7 +162,11 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT Platform | Dashboard</title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
 
       <ModalViewDetailNotification
@@ -729,101 +733,6 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                   </Row>
                 </Card>
               </Col>
-              <Col span={24}>
-                <Card
-                  style={{
-                    borderRadius: 8,
-                    borderTop: '2px solid #1890FF',
-                    paddingBottom: 0,
-                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
-                  }}
-                  loading={loading}
-                >
-                  <Row gutter={[16, 16]}>
-                    <Col
-                      span={24}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <Space>
-                        {/* <div
-                        style={{
-                          background: '#1890FF',
-                          padding: '8px 4px',
-                          borderRadius: 999,
-                          width: 36,
-                          height: 36,
-                          textAlign: 'center',
-                          boxShadow:
-                            '0px 100px 80px rgba(24, 144, 255, 0.27), 0px 12.5216px 10.0172px rgba(24, 144, 255, 0.135), 0px 6.6501px 5.32008px rgba(24, 144, 255, 0.109051), 0px 2.76726px 2.21381px rgba(24, 144, 255, 0.0759093)',
-                        }}
-                      >
-                        <LocationIcon
-                          style={{
-                            color: '#fff',
-                          }}
-                        />
-                      </div> */}
-                        <Typography
-                          style={{
-                            fontSize: 18,
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          Jaringan Pipa Air Bersih
-                        </Typography>
-                      </Space>
-                      {/* <Button
-                      icon={
-                        !collapseDeviceLocation ? (
-                          <DownOutlined
-                            style={{
-                              color: '#1890FF',
-                            }}
-                          />
-                        ) : (
-                          <UpOutlined
-                            style={{
-                              color: '#1890FF',
-                            }}
-                          />
-                        )
-                      }
-                      size={'small'}
-                      style={{
-                        background: '#E6F7FF',
-                        border: '1px solid #E6F7FF',
-                      }}
-                      onClick={() => setCollapseDeviceLocation(!collapseDeviceLocation)}
-                    /> */}
-                    </Col>
-                    <Col
-                      span={24}
-                      // className={collapseDeviceLocation ? 'collabsible active' : 'collabsible'}
-                      style={{
-                        // overflow: collapseDeviceLocation ? 'visible' : 'hidden',
-                        paddingTop: '28px',
-                      }}
-                    >
-                      <div
-                      // style={{
-                      //   opacity: !collapseDeviceLocation ? '0' : '1',
-                      // }}
-                      >
-                        <MapAction
-                          loadingGtLamp={false}
-                          devices={dataAlert.device_location}
-                          // gateway={[]}
-                          getDataCountMap={getDataCountMap}
-                          // listrik={[]}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
             </Row>
           </Col>
           <Col xxl={7} xl={7} md={24} sm={24} xs={24}>
@@ -850,6 +759,101 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                 />
               </Col> */}
             </Row>
+          </Col>
+          <Col span={24}>
+            <Card
+              style={{
+                borderRadius: 8,
+                borderTop: '2px solid #1890FF',
+                paddingBottom: 0,
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
+              }}
+              loading={loading}
+            >
+              <Row gutter={[16, 16]}>
+                <Col
+                  span={24}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Space>
+                    {/* <div
+                        style={{
+                          background: '#1890FF',
+                          padding: '8px 4px',
+                          borderRadius: 999,
+                          width: 36,
+                          height: 36,
+                          textAlign: 'center',
+                          boxShadow:
+                            '0px 100px 80px rgba(24, 144, 255, 0.27), 0px 12.5216px 10.0172px rgba(24, 144, 255, 0.135), 0px 6.6501px 5.32008px rgba(24, 144, 255, 0.109051), 0px 2.76726px 2.21381px rgba(24, 144, 255, 0.0759093)',
+                        }}
+                      >
+                        <LocationIcon
+                          style={{
+                            color: '#fff',
+                          }}
+                        />
+                      </div> */}
+                    <Typography
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Jaringan Pipa Air Bersih
+                    </Typography>
+                  </Space>
+                  {/* <Button
+                      icon={
+                        !collapseDeviceLocation ? (
+                          <DownOutlined
+                            style={{
+                              color: '#1890FF',
+                            }}
+                          />
+                        ) : (
+                          <UpOutlined
+                            style={{
+                              color: '#1890FF',
+                            }}
+                          />
+                        )
+                      }
+                      size={'small'}
+                      style={{
+                        background: '#E6F7FF',
+                        border: '1px solid #E6F7FF',
+                      }}
+                      onClick={() => setCollapseDeviceLocation(!collapseDeviceLocation)}
+                    /> */}
+                </Col>
+                <Col
+                  span={24}
+                  // className={collapseDeviceLocation ? 'collabsible active' : 'collabsible'}
+                  style={{
+                    // overflow: collapseDeviceLocation ? 'visible' : 'hidden',
+                    paddingTop: '28px',
+                  }}
+                >
+                  <div
+                  // style={{
+                  //   opacity: !collapseDeviceLocation ? '0' : '1',
+                  // }}
+                  >
+                    <MapAction
+                      loadingGtLamp={false}
+                      devices={dataAlert.device_location}
+                      // gateway={[]}
+                      getDataCountMap={getDataCountMap}
+                      // listrik={[]}
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </Card>
           </Col>
           {/* <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
             <ProduksiAir

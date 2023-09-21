@@ -161,7 +161,7 @@ const ViewUsers: React.FC<Props> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA IoT Platform | User Management</title>
+        <title>AAT IoT Platform | User Management</title>
         <link rel="icon" href="/Sinar-mas.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ paddingTop: 0, marginTop: 0 }} />

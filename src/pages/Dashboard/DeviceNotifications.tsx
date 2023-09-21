@@ -50,7 +50,11 @@ const DeviceNotifications: React.FC = (props: Props) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>AAT | Dashboard </title>
-        <link rel="icon" href="/logoaat.png" type="image/x-icon" />
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
       </Helmet>
       <Divider style={{ marginTop: 0, padding: 0 }} />
       <Row gutter={[16, 16]} justify="start">
