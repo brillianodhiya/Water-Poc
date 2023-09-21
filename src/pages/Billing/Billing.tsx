@@ -92,7 +92,7 @@ const Billing: React.FC = ({}) => {
       >
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Nebula Apps | Billing</title>
+          <title>AAT | Transaction</title>
           <link
             rel="icon"
             href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"

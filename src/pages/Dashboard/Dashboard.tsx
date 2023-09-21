@@ -229,7 +229,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
             }}
           >
             {/* Thu Dec 22 2022 03:35:02 */}
-            {moment().format('ddd MMM DD YYYY HH:mm:ss')}
+            {moment().format('dddd MMM DD YYYY HH:mm:ss')}
           </Typography>
         </div>
       </div>
