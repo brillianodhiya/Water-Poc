@@ -22,6 +22,7 @@ import { getBillingById } from '@/services/nebula/billing';
 import BillingInvoice from './components/BillingInvoice';
 import BillingModal from './components/BillingModal';
 import { toCanvas } from 'html-to-image';
+import { converNumberSmNotFixed } from '@/components/config.usage';
 moment.locale('en');
 
 type Props = {};
@@ -374,7 +375,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
               key="usage"
               render={(text, _, idx: number) => {
                 if (idx == 0) {
-                  return text;
+                  return converNumberSmNotFixed(text);
                 } else {
                   return '';
                 }
@@ -383,11 +384,11 @@ const BillingInfo: React.FC<Props> = ({}) => {
 
             <Column
               title="Minimum Usage"
-              dataIndex="min_usage_value"
+              dataIndex="min_usage_threshold"
               key="min_usage_value"
               render={(text, _, idx: number) => {
                 if (idx == 0) {
-                  return text;
+                  return converNumberSmNotFixed(text);
                 } else {
                   return '';
                 }
@@ -401,7 +402,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
               width={250}
               render={(_, record: any, idx: number) => {
                 if (idx == 0) {
-                  return _;
+                  return converNumberSmNotFixed(_);
                 } else if (idx == 1) {
                   return (
                     <Typography
@@ -433,13 +434,15 @@ const BillingInfo: React.FC<Props> = ({}) => {
                       <Typography
                         style={{
                           textAlign: 'right',
-                          width: '30px',
+                          // width: '30px',
                         }}
                       >
                         {operator}
                         {record?.[`parameter_${tier}`]}
                       </Typography>
-                      <Typography>{record?.[`usage_parameter_${tier}`]}</Typography>
+                      <Typography>
+                        {converNumberSmNotFixed(record?.[`usage_parameter_${tier}`])}
+                      </Typography>
                     </div>
                   );
                 }
