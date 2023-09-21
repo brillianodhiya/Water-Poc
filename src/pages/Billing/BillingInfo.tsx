@@ -130,16 +130,16 @@ const BillingInfo: React.FC<Props> = ({}) => {
     } catch (error) {}
   };
 
-  const handleCancel = () => {
+  const handleCancel = (val: string) => {
     Modal.confirm({
-      title: 'Are you sure to cancel this billing ?',
+      title: `Are you sure to ${val} this billing ?`,
       okText: 'Yes',
       cancelText: 'No',
-      onOk  () {
-        handleChangeStatus("cancel")
-      }
+      onOk() {
+        handleChangeStatus(val);
+      },
     });
-  }
+  };
 
   return (
     <PageContainer
@@ -203,13 +203,13 @@ const BillingInfo: React.FC<Props> = ({}) => {
             </Button> */}
 
             {dataBilling.status == 'new' ? (
-              <Button onClick={() => handleChangeStatus('unpaid')}>Unpaid</Button>
+              <Button onClick={() => handleCancel('unpaid')}>Unpaid</Button>
             ) : null}
             {dataBilling.status == 'unpaid' ? (
-              <Button onClick={() => handleChangeStatus('paid')}>Paid</Button>
+              <Button onClick={() => handleCancel('paid')}>Paid</Button>
             ) : null}
             {dataBilling.status == 'new' || dataBilling.status == 'unpaid' ? (
-              <Button danger onClick={() => handleCancel()}>
+              <Button danger onClick={() => handleCancel('cancel')}>
                 Cancel
               </Button>
             ) : null}
