@@ -114,7 +114,7 @@ const Reports: React.FC = () => {
         A7: 'To',
         A8: 'From',
         A9: 'To',
-        A10: 'Balance',
+        A10: 'Usage',
       },
     ];
 
@@ -127,9 +127,9 @@ const Reports: React.FC = () => {
         A5: item.tenant_name,
         A6: moment(item.start_date).format('DD/MM/YYYY'),
         A7: moment(item.end_date).format('DD/MM/YYYY'),
-        A8: parseInt(item.start_totalizer).toString(),
-        A9: parseInt(item.end_totalizer).toString(),
-        A10: parseInt(item.usage).toString(),
+        A8: item.start_totalizer.toString(),
+        A9: item.end_totalizer.toString(),
+        A10: item.usage.toString(),
       });
     });
 

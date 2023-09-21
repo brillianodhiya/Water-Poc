@@ -17,7 +17,12 @@ import 'moment/locale/id';
 import React from 'react';
 import jsPDF from 'jspdf';
 import { Helmet, history, useParams } from '@umijs/max';
-import { ArrowLeftOutlined, DeleteOutlined, PrinterOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+  PrinterOutlined,
+} from '@ant-design/icons';
 import { getBillingById } from '@/services/nebula/billing';
 import BillingInvoice from './components/BillingInvoice';
 import BillingModal from './components/BillingModal';
@@ -154,7 +159,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
         <Row justify={'space-between'}>
           <Col>
             <Space>
-              <Button onClick={handleExport} icon={<PrinterOutlined />}>
+              <Button onClick={handleExport} icon={<ExportOutlined />}>
                 Export Pdf
               </Button>
               {/* <Button icon={<CarryOutOutlined />}>Correction</Button>
@@ -162,9 +167,9 @@ const BillingInfo: React.FC<Props> = ({}) => {
             </Space>
           </Col>
           <Col>
-            <Button danger icon={<DeleteOutlined />}>
+            {/* <Button danger icon={<DeleteOutlined />}>
               Cancel Billing
-            </Button>
+            </Button> */}
           </Col>
         </Row>
         <Divider style={{ backgroundColor: '#1890FF', height: 2 }} />
