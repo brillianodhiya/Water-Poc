@@ -17,12 +17,7 @@ import 'moment/locale/id';
 import React from 'react';
 import jsPDF from 'jspdf';
 import { Helmet, history, useParams } from '@umijs/max';
-import {
-  ArrowLeftOutlined,
-  DeleteOutlined,
-  ExportOutlined,
-  PrinterOutlined,
-} from '@ant-design/icons';
+import { ArrowLeftOutlined, ExportOutlined } from '@ant-design/icons';
 import { getBillingById } from '@/services/nebula/billing';
 import BillingInvoice from './components/BillingInvoice';
 import BillingModal from './components/BillingModal';
