@@ -12,6 +12,7 @@ import {
   Table,
   Spin,
   message,
+  Modal,
 } from 'antd';
 import moment from 'moment';
 import 'moment/locale/id';
@@ -129,6 +130,17 @@ const BillingInfo: React.FC<Props> = ({}) => {
     } catch (error) {}
   };
 
+  const handleCancel = () => {
+    Modal.confirm({
+      title: 'Are you sure to cancel this billing ?',
+      okText: 'Yes',
+      cancelText: 'No',
+      onOk  () {
+        handleChangeStatus("cancel")
+      }
+    });
+  }
+
   return (
     <PageContainer
       childrenContentStyle={{
@@ -197,7 +209,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
               <Button onClick={() => handleChangeStatus('paid')}>Paid</Button>
             ) : null}
             {dataBilling.status == 'new' || dataBilling.status == 'unpaid' ? (
-              <Button danger onClick={() => handleChangeStatus('cancel')}>
+              <Button danger onClick={() => handleCancel()}>
                 Cancel
               </Button>
             ) : null}
