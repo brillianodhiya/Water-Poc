@@ -22,7 +22,7 @@ const BillingInvoice: React.FC<Props> = ({ data }) => {
         </Typography.Title>
       </Col>
       <Col span={8}>
-        <Typography>Pajak (excluded)</Typography>
+        <Typography>PPN</Typography>
       </Col>
       <Col span={10}>
         <Typography>{data?.ppn}%</Typography>
