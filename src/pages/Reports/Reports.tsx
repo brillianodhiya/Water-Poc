@@ -147,7 +147,7 @@ const Reports: React.FC = () => {
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
           type="image/x-icon"
         />
-        <title>AAT | Transaction</title>
+        <title>AAT IoT Platform | Transaction</title>
       </Helmet>
       {/* <Room isFocused={true} /> */}
       <div>

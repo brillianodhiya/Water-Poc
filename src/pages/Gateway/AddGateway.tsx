@@ -134,7 +134,7 @@ const AddGateway: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT | Gateway</title>
+        <title>AAT IoT Platform | Gateway</title>
         <link
           rel="icon"
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"

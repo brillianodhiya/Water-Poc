@@ -73,7 +73,7 @@ const ChangePassword: React.FC<Props> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT | User</title>
+        <title>AAT IoT Platform | User</title>
         <link
           rel="icon"
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"

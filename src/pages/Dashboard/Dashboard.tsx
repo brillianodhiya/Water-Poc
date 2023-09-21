@@ -161,7 +161,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT Platform | Dashboard</title>
+        <title>AAT IoT Platform | Dashboard</title>
         <link
           rel="icon"
           href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
