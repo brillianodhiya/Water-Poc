@@ -185,18 +185,25 @@ export default [
   //   // layout: false,
   //   component: './Overview/Overview',
   // },
+
   {
-    path: '/reports',
-    name: 'Usage',
-    // icon: 'smile',
-    component: './Reports/Reports',
+    path: '/transaction',
+    name: 'Transaction',
+    component: './Transaction/Transaction',
   },
-  {
-    path: '/billing',
-    name: 'Billing',
-    // icon: 'smile',
-    component: './Billing/Billing',
-  },
+
+  // {
+  //   path: '/reports',
+  //   name: 'Usage',
+  //   // icon: 'smile',
+  //   component: './Reports/Reports',
+  // },
+  // {
+  //   path: '/billing',
+  //   name: 'Billing',
+  //   // icon: 'smile',
+  //   component: './Billing/Billing',
+  // },
   {
     path: '/billing/detail/:id',
     // icon: 'smile',

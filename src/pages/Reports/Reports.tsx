@@ -149,14 +149,7 @@ const Reports: React.FC = () => {
         />
       </Helmet>
       {/* <Room isFocused={true} /> */}
-      <PageContainer
-        childrenContentStyle={{
-          minHeight: '70vh',
-        }}
-        title="Transaction Usage"
-        content="Usage Totalizer of device "
-      >
-        <Divider />
+      <div>
         <Card
           style={{
             borderRadius: 8,
@@ -366,7 +359,7 @@ const Reports: React.FC = () => {
             {/* <Column title="Unit" dataIndex={['node_type', 'satuan']} /> */}
           </Table>
         </div>
-      </PageContainer>
+      </div>
     </>
   );
 };

@@ -43,7 +43,7 @@ type DataType = {
   id: number;
 };
 
-const Billing: React.FC<{ isFocused: boolean }> = ({}) => {
+const Billing: React.FC = ({}) => {
   const [dataBilling, setDataBilling] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [areaId, setAreaId] = React.useState(0);
@@ -80,14 +80,7 @@ const Billing: React.FC<{ isFocused: boolean }> = ({}) => {
   };
 
   return (
-    <PageContainer
-      childrenContentStyle={{
-        minHeight: '70vh',
-      }}
-      title="Transaction Billing"
-      content="Manage your billing"
-    >
-      <Divider />
+    <div>
       <Card
         style={{
           borderRadius: 8,
@@ -346,7 +339,7 @@ const Billing: React.FC<{ isFocused: boolean }> = ({}) => {
           />
         </Table>
       </div>
-    </PageContainer>
+    </div>
   );
 };
 
