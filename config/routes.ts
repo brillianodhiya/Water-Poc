@@ -135,17 +135,6 @@ export default [
   //   component: './Ticketing/AddTicket',
   // },
   {
-    path: '/billing',
-    name: 'Billing',
-    // icon: 'smile',
-    component: './Billing/Billing',
-  },
-  {
-    path: '/billing/detail/:id',
-    // icon: 'smile',
-    component: './Billing/BillingInfo',
-  },
-  {
     path: '/users',
     name: 'User',
     // icon: 'smile',
@@ -198,9 +187,20 @@ export default [
   // },
   {
     path: '/reports',
-    name: 'Reports',
+    name: 'Usage',
     // icon: 'smile',
     component: './Reports/Reports',
+  },
+  {
+    path: '/billing',
+    name: 'Billing',
+    // icon: 'smile',
+    component: './Billing/Billing',
+  },
+  {
+    path: '/billing/detail/:id',
+    // icon: 'smile',
+    component: './Billing/BillingInfo',
   },
   {
     path: '/notification',
