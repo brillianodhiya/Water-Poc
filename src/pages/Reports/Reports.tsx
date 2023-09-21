@@ -153,8 +153,8 @@ const Reports: React.FC = () => {
         childrenContentStyle={{
           minHeight: '70vh',
         }}
-        title="Report"
-        content="Report Totalizer of device "
+        title="Transaction Usage"
+        content="Usage Totalizer of device "
       >
         <Divider />
         <Card

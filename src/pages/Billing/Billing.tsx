@@ -240,8 +240,8 @@ const Billing: React.FC<{ isFocused: boolean }> = ({}) => {
         />
         <Column
           title="Amount"
-          dataIndex="amount"
-          key="amount"
+          dataIndex="grand_total"
+          key="grand_total"
           render={(_) => {
             return 'Rp.' + converNumberSmNotFixed(_) + ',00';
           }}
