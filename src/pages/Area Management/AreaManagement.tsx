@@ -4,6 +4,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
 import { Avatar, Button, Card, Divider, Input, Row, Space, Spin, Typography } from 'antd';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -94,6 +95,15 @@ const AreaManagement: React.FC = () => {
         </>
       }
     >
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>AAT IoT Platform | Area</title>
+        <link
+          rel="icon"
+          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
+          type="image/x-icon"
+        />
+      </Helmet>
       <Divider />
       {/* <Card
         style={{

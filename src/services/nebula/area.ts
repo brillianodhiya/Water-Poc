@@ -160,7 +160,7 @@ export const ApiAddArea = async (values: {
 
 export const ApiEditAreaSettings = async (values: any, area_id: number) => {
   try {
-    const { data } = await api.post<APINebula.PostResponse>('/area/setting/' + area_id, {
+    const { data } = await api.post<APINebula.PostResponse>('/area/setting/edit/' + area_id, {
       ...values,
     });
 
