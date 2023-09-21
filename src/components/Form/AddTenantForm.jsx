@@ -3,7 +3,6 @@ import { Avatar, Button, Form, Modal, Space, Spin, Typography, Upload, Input } f
 import React from 'react';
 import api from '../../../config/axiosConfig';
 
-
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -25,24 +24,23 @@ const AddTenantForm = ({ title, open, onOk, onCancel }) => {
   const [loading, setLoading] = React.useState(false);
 
   const onFinish = (values) => {
-    setLoading(true)
+    setLoading(true);
 
-    api({
-
-    }).then((res) => {
-      if (res.data.responseCode == 200) {
-        setLoading(false);
-        Modal.success({
-          content: 'Success Add Tenant...',
-          onOk: () => {
-            form.resetFields();
-            onOk();
-          },
-        });
-      } else {
-        message.error(res.data.message);
-      }
-    })
+    api({})
+      .then((res) => {
+        if (res.data.responseCode == 200) {
+          setLoading(false);
+          Modal.success({
+            content: 'Success Add Tenant...',
+            onOk: () => {
+              form.resetFields();
+              onOk();
+            },
+          });
+        } else {
+          message.error(res.data.message);
+        }
+      })
       .catch((err) => {
         message.error(err.response?.data?.message);
       });
@@ -76,7 +74,7 @@ const AddTenantForm = ({ title, open, onOk, onCancel }) => {
                 }}
                 src={imgView}
                 icon={<UserOutlined />}
-              // style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.06)' }}
+                // style={{ background: '#fff', border: '1px solid rgba(0, 0, 0, 0.06)' }}
               />
             </Spin>
             <div

@@ -24,6 +24,7 @@ import {
 } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -47,6 +48,7 @@ type LocationStateTypes = {
     pic_name: string;
     area_id: number;
     customer_id: number;
+    member_id: number;
     type: string;
     id: number;
   };
@@ -64,15 +66,21 @@ const EditTenant: React.FC = () => {
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   const [dataArea, setDataArea] = useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const [ListMember, setListMember] = useState<any[]>([]);
 
   console.log(state.dataEdit.logo);
 
   React.useEffect(() => {
     if (state.dataEdit) {
+      setListMember(state.dataEdit.Nebula_Area.Nebula_Area_members);
       form.setFields([
         {
           name: 'customer_id',
           value: state.dataEdit.customer_id,
+        },
+        {
+          name: 'member_id',
+          value: state.dataEdit.member_id,
         },
         {
           name: 'phone',
@@ -166,7 +174,7 @@ const EditTenant: React.FC = () => {
   }, []);
 
   const onFinish = async (values: any) => {
-    console.log(values);
+    console.log(values, 'valueeee');
     setLoading(true);
     const data = await ApiEditTenant({
       name: values.name,
@@ -179,7 +187,7 @@ const EditTenant: React.FC = () => {
       area_name: values.area_name,
       pic_name: values.pic_name,
       area_id: state.dataEdit.area_id,
-      // customer_id: values.customer_id,
+      member_id: values.member_id,
       type: values.type,
       id: state.dataEdit.id,
       password: values.retypePassword,
@@ -336,11 +344,30 @@ const EditTenant: React.FC = () => {
                 rules={[{ required: true, message: 'Please input area name!' }]}
                 requiredMark="optional"
               >
-                <Select placeholder="Area Name" className="not-rounded">
+                <Select disabled placeholder="Area Name" className="not-rounded">
                   {dataArea.map((v) => {
                     return (
                       <Select.Option key={v.id} value={v.area_name}>
                         {v.area_name}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                style={{
+                  marginTop: '24px',
+                }}
+                label="Member"
+                name="member_id"
+                rules={[{ required: true, message: 'Please input area name!' }]}
+                requiredMark="optional"
+              >
+                <Select placeholder="Member" className="not-rounded">
+                  {ListMember.map((v) => {
+                    return (
+                      <Select.Option key={v.id} value={v.id}>
+                        {v.name}
                       </Select.Option>
                     );
                   })}
