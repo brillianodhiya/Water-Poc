@@ -336,9 +336,11 @@ const BillingInfo: React.FC<Props> = ({}) => {
             dataSource={[dataBilling, {}, dataBilling, dataBilling, dataBilling]}
             pagination={false}
             size="middle"
-            scroll={{
-              x: 1200,
-            }}
+            scroll={
+              {
+                // x: 1200,
+              }
+            }
           >
             <Column
               title="Month"
@@ -480,72 +482,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
             />
           </Table>
           <Row gutter={[16, 16]} justify={'space-between'} style={{ marginTop: 40 }}>
-            <Col span={10}>
-              {/* <Row gutter={[16, 16]} justify={'space-between'}>
-                <Col
-                  span={24}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Typography style={{ fontSize: 16, fontWeight: '500' }}>
-                    Send to Customer
-                  </Typography>
-                  <Typography.Link
-                    style={{ fontSize: 16, fontWeight: '500' }}
-                    // onClick={() => setIsOpen(true)}
-                  >
-                    Send & Choose Email
-                  </Typography.Link>
-                </Col>
-                <Col span={24}>
-                  <Row
-                    style={{
-                      border: '1px solid rgba(0, 0, 0, 0.06)',
-                      padding: '24px 16px',
-                    }}
-                    gutter={[18, 16]}
-                  >
-                    {emails.map((e) => {
-                      return (
-                        <Col
-                          key={e}
-                          // style={{
-                          //   border: '1px solid #91D5FF',
-                          //   padding: '1px 8px',
-                          // }}
-                        >
-                          <Typography.Link
-                            style={{
-                              fontSize: 16,
-                              border: '1px solid #91D5FF',
-                              padding: '4px 10px',
-                            }}
-                          >
-                            {e}
-                          </Typography.Link>
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </Col>
-                <Col
-                  span={24}
-                  style={{
-                    background: '#E6F7FF',
-                    borderRadius: '2px',
-                    border: '1px solid #91D5FF',
-                  }}
-                >
-                  <Typography>
-                    Untuk mengirimkan Invoice ke Customer pastikan anda sudah melakukan{' '}
-                    <span style={{ fontWeight: 'bold' }}>Generate Invoice</span>
-                  </Typography>
-                </Col>
-              </Row> */}
-            </Col>
-            <Col>
+            <Col span={24}>
               <BillingInvoice data={dataBilling} />
             </Col>
           </Row>

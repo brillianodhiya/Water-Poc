@@ -12,7 +12,7 @@ const BillingInvoice: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <Row gutter={[16, 16]} style={{ maxWidth: 700 }}>
+    <Row gutter={[16, 16]} style={{ maxWidth: 700, float: 'right' }}>
       <Col span={18}>
         <Typography.Title level={4}>Sub Total</Typography.Title>
       </Col>
