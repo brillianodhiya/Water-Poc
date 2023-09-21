@@ -155,7 +155,7 @@ const BillingInfo: React.FC<Props> = ({}) => {
           <Col>
             <Space>
               <Button onClick={handleExport} icon={<PrinterOutlined />}>
-                Print
+                Export Pdf
               </Button>
               {/* <Button icon={<CarryOutOutlined />}>Correction</Button>
             <Button icon={<EditOutlined />}>Edit History</Button> */}
