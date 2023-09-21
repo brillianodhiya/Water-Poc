@@ -1,7 +1,7 @@
 import { AreaDropdown } from '@/components/CustomInput/AreaDropdown';
 import { TenantDropdown } from '@/components/CustomInput/TenantDropdown';
 import { exportExcelv2AntTable } from '@/components/ExcelExport/ExportExcel';
-import { converNumberSmNotFixed } from '@/components/config.usage';
+import { converNumberSmNotFixed, rupiahFormat } from '@/components/config.usage';
 import { getBilling } from '@/services/nebula/billing';
 import { ExportOutlined, EyeOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
@@ -236,7 +236,7 @@ const Billing: React.FC = ({}) => {
           dataIndex="grand_total"
           key="grand_total"
           render={(_) => {
-            return 'Rp.' + converNumberSmNotFixed(_) + ',00';
+            return rupiahFormat(_);
           }}
         />
         <Column
@@ -307,9 +307,9 @@ const Billing: React.FC = ({}) => {
             title="Usage"
             dataIndex="usage"
             key="usage"
-            render={(_) => {
-              return converNumberSmNotFixed(_);
-            }}
+            // render={(_) => {
+            //   return converNumberSmNotFixed(_);
+            // }}
           />
           <Column
             title="Status"
@@ -331,10 +331,10 @@ const Billing: React.FC = ({}) => {
           />
           <Column
             title="Amount"
-            dataIndex="amount"
-            key="amount"
+            dataIndex="grand_total"
+            key="grand_total"
             render={(_) => {
-              return 'Rp.' + converNumberSmNotFixed(_) + ',00';
+              return rupiahFormat(_);
             }}
           />
         </Table>

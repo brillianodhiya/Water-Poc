@@ -21,8 +21,8 @@ const loginPath = '/user/login';
 if (!isDev) {
   console.log = () => {};
   console.warn = () => {};
-  console.error = () => {};
 }
+console.error = () => {};
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state

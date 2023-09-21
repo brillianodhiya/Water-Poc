@@ -100,16 +100,16 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
   };
 
   const onFinish = async (values: any) => {
-    // console.log(values, 'VALUES');
-    setLoading(true);
-    const arr: { id: number; price_per_device_type: any }[] = [];
+    console.log(values, 'VALUES');
+    // setLoading(true);
+    const arr: { id: number; name: any }[] = [];
     Object.keys(values[activeEdit[0]]).map((v) => {
       arr.push({
         id: parseInt(v),
-        price_per_device_type: values[activeEdit[0]][v],
+        name: values[activeEdit[0]][v],
       });
     });
-    // console.log(arr, 'ARR');
+    console.log(arr, 'ARR');
     setLoading(false);
     const d = await ApiEditPricingMember(arr);
     if (!d.error) {
@@ -119,7 +119,7 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
     }
   };
 
-  console.log(activeEdit, 'ACTOVE');
+  // console.log(activeEdit, 'ACTOVE');
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -165,8 +165,32 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
                           justifyContent: 'space-between',
                         }}
                       >
-                        <Typography>{e?.member_name}</Typography>
-                        <Button
+                        <Form.Item
+                          key={e.id.toString()}
+                          name={[e.id.toString(), e.id.toString()]}
+                          // name={[e.member_name, v.id.toString()]}
+                          label={
+                            activeEdit.includes(e.id) ? (
+                              <Typography.Text type="secondary">{e.name}</Typography.Text>
+                            ) : null
+                          }
+                          initialValue={e.name}
+                          noStyle
+                        >
+                          {activeEdit.includes(e.id) ? (
+                            <Input placeholder="Input" />
+                          ) : (
+                            <Typography
+                              style={{
+                                marginTop: '6px',
+                              }}
+                            >
+                              {e?.name}
+                            </Typography>
+                          )}
+                        </Form.Item>
+
+                        {/* <Button
                           shape="circle"
                           ghost
                           onClick={() => {
@@ -182,36 +206,7 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
                           }}
                         >
                           {activeEdit.includes(e.id) ? <CheckOutlined /> : <EditOutlined />}
-                        </Button>
-                      </div>
-                      <div
-                        style={{
-                          marginTop: '12px',
-                        }}
-                      >
-                        {e?.Nebula_Area_Pricing_members?.map((v: any) => {
-                          return (
-                            <Form.Item
-                              key={v.device_type}
-                              name={[e.id.toString(), v.id.toString()]}
-                              // name={[e.member_name, v.id.toString()]}
-                              label={
-                                <Typography.Text type="secondary">
-                                  {v.device_type} (/{v.satuan})
-                                </Typography.Text>
-                              }
-                              initialValue={v.price_per_device_type}
-                            >
-                              {activeEdit.includes(e.id) ? (
-                                <InputNumber addonBefore="Rp." placeholder="Input Price" />
-                              ) : (
-                                <Typography.Text>
-                                  Rp.{converNumberSmNotFixed(v.price_per_device_type)}
-                                </Typography.Text>
-                              )}
-                            </Form.Item>
-                          );
-                        })}
+                        </Button> */}
                       </div>
                     </div>
                   </Col>

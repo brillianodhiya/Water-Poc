@@ -276,12 +276,10 @@ export const ApiCreateMemberLevel = async (values: {
   area_id: number | string;
 }) => {
   try {
-    const { data } = await api.post<APINebula.PostResponse>(
-      '/area/create/member/' + values.area_id,
-      {
-        member_name: values.member_name,
-      },
-    );
+    const { data } = await api.post<APINebula.PostResponse>('/area/create/member', {
+      name: values.member_name,
+      area_id: values.area_id,
+    });
 
     return {
       ...data,

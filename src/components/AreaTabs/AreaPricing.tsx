@@ -3,6 +3,55 @@ import React from 'react';
 import { WeCurrency } from '../Formatter/config.currency';
 import { ApiEditAreaPricing } from '@/services/nebula/area';
 
+function reverseRelation(
+  data: {
+    type_id: number;
+    type_name: string;
+    price_member: { id: number; name: string; price: number }[];
+  }[],
+): { id: number; name: string; types: { type_id: number; type_name: string; price: number }[] }[] {
+  // Inisialisasi objek kosong untuk menyimpan hasil
+  const pricing_member = {};
+
+  // Iterasi setiap elemen data
+  for (const element of data) {
+    // Ambil nilai type_id dan type_name dari elemen
+    const { type_id, type_name } = element;
+
+    // Iterasi setiap elemen price_member dari elemen
+    for (const member of element.price_member) {
+      // Ambil nilai id, name dan price dari member
+      const { id, name, price } = member;
+
+      // Cek apakah id sudah ada di objek pricing_member
+      if (pricing_member[id]) {
+        // Jika sudah ada, tambahkan objek baru ke array types
+        pricing_member[id].types.push({
+          type_id,
+          type_name,
+          price,
+        });
+      } else {
+        // Jika belum ada, buat objek baru dengan array types
+        pricing_member[id] = {
+          id,
+          name,
+          types: [
+            {
+              type_id,
+              type_name,
+              price,
+            },
+          ],
+        };
+      }
+    }
+  }
+
+  // Kembalikan array dari nilai-nilai objek pricing_member sebagai hasil
+  return Object.values(pricing_member);
+}
+
 const AreaPricing: React.FC<{
   dataArea: any;
   getData: () => void;

@@ -99,7 +99,14 @@ const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
           />
         </Col>
 
-        <Col span={24} style={{ paddingLeft: 20, maxHeight: '80vh', overflow: 'scroll' }}>
+        <Col
+          span={24}
+          style={{
+            paddingLeft: 20,
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          }}
+        >
           {dataTenant.length > 0 && !loading
             ? dataTenant.map((val) => {
                 return (

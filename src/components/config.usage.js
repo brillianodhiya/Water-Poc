@@ -138,9 +138,14 @@ const converNumberSmNotFixed = (number) => {
   return new Intl.NumberFormat('id-ID').format(number);
 };
 
+const rupiahFormat = (value) => {
+  return value?.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+};
+
 export {
   convertNumberSm,
   // InputNumberSm,
   // InputNumberSmMaterial,
   converNumberSmNotFixed,
+  rupiahFormat,
 };

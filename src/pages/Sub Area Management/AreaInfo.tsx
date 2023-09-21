@@ -271,19 +271,23 @@ const AreaInfo: React.FC = () => {
             }}
             onChange={(val) => setSegmentedKey(val.toString())}
           />
-          {/* <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} /> */}
+
           {dataArea.id &&
             (segmentedKey == 'Area Settings' ? (
               <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} />
             ) : segmentedKey == 'Member Level' ? (
               <MemberLevel getData={getData} dataArea={dataArea} loadingArea={loading} />
-            ) : segmentedKey == 'Pricing' ? (
-              <AreaPricing getData={getData} dataArea={dataArea} loadingArea={loading} />
             ) : null)}
         </Col>
 
         <Col xs={24} sm={24} md={24} lg={8} xl={6} xxl={6}>
           <ProfileSide area_id={state.area_id} />
+        </Col>
+        <Col span={24}>
+          {/* <AreaSettings getData={getData} dataArea={dataArea} loadingArea={loading} /> */}
+          {dataArea.id && segmentedKey == 'Pricing' ? (
+            <AreaPricing getData={getData} dataArea={dataArea} loadingArea={loading} />
+          ) : null}
         </Col>
       </Row>
       {/* </Card> */}
