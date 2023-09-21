@@ -117,10 +117,10 @@ const BillingInfo: React.FC<Props> = ({}) => {
         minHeight: '70vh',
       }}
       title={
-        <Button type="link" onClick={() => history.push('/transaction/billing')} size="large">
+        <Button type="link" onClick={() => history.push('/transaction?tab=billing')} size="large">
           <Space style={{ cursor: 'pointer' }} align="start" size={'large'}>
             <ArrowLeftOutlined
-              onClick={() => history.push('/transaction/billing')}
+              onClick={() => history.push('/transaction?tab=billing')}
               style={{ marginTop: '12px', fontSize: '24px', color: '#000' }}
             />
             <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
