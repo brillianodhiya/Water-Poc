@@ -1,4 +1,4 @@
-import { Card, Row, Col, Typography, Spin, notification, Radio } from 'antd';
+import { Card, Row, Col, Typography, Spin, notification, Radio, message } from 'antd';
 import React from 'react';
 import api from '../../../config/axiosConfig';
 import CardPricing from './CardPricing';
@@ -82,9 +82,7 @@ const AreaPricing: React.FC<{
         getData();
       })
       .catch((err: any) => {
-        notification.error({
-          message: err.response.data.message,
-        });
+        message.error(err.response.data.message);
       });
   };
   return (

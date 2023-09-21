@@ -48,9 +48,7 @@ const CardPricing = (props) => {
           setIsEdit(false);
         })
         .catch((err) => {
-          notification.error({
-            message: err.response.data.message,
-          });
+          message.error(err.response.data.message);
         });
     } else {
       setIsEdit(true);

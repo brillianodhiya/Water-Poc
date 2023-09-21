@@ -1,4 +1,3 @@
-import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 import {
   Row,
   Col,
@@ -8,15 +7,16 @@ import {
   Input,
   Spin,
   Form,
-  InputNumber,
   Empty,
   message,
+  Modal,
 } from 'antd';
 import type { FunctionComponent } from 'react';
 import _ from 'lodash';
 import React from 'react';
 import { ApiCreateMemberLevel, ApiEditPricingMember } from '@/services/nebula/area';
-import { converNumberSmNotFixed } from '../config.usage';
+import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import api from '../../../config/axiosConfig';
 
 type Props = {
   dataArea: any;
@@ -119,6 +119,24 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
     }
   };
 
+  const handleDelete = (id: number, name: string) => {
+    Modal.confirm({
+      title: 'Are you sure to delete this member level ?',
+      content: name,
+      okText: 'Yes',
+      cancelText: 'No',
+      onOk: async () => {
+        try {
+          const d = await api.delete('/area/delete/member/' + id);
+
+          message.success(d.data.message);
+          getData();
+        } catch (error) {
+          message.error(error.message);
+        }
+      },
+    });
+  };
   // console.log(activeEdit, 'ACTOVE');
 
   return (
@@ -190,23 +208,33 @@ const MemberLevel: FunctionComponent<Props> = ({ dataArea, getData, loadingArea 
                           )}
                         </Form.Item>
 
-                        {/* <Button
-                          shape="circle"
-                          ghost
-                          onClick={() => {
-                            if (activeEdit.includes(e.id)) {
-                              form.submit();
-                              // setActiveEdit(activeEdit.filter((v) => v !== e.id));
-                            } else {
-                              setActiveEdit([e.id]);
-                            }
-                          }}
-                          style={{
-                            color: 'black',
-                          }}
-                        >
-                          {activeEdit.includes(e.id) ? <CheckOutlined /> : <EditOutlined />}
-                        </Button> */}
+                        <Space>
+                          <Button
+                            shape="circle"
+                            ghost
+                            onClick={() => {
+                              if (activeEdit.includes(e.id)) {
+                                form.submit();
+                                // setActiveEdit(activeEdit.filter((v) => v !== e.id));
+                              } else {
+                                setActiveEdit([e.id]);
+                              }
+                            }}
+                            style={{
+                              color: 'black',
+                            }}
+                          >
+                            {activeEdit.includes(e.id) ? <CheckOutlined /> : <EditOutlined />}
+                          </Button>
+                          <Button
+                            danger
+                            type="link"
+                            shape="circle"
+                            onClick={() => handleDelete(e.id, e.name)}
+                          >
+                            <DeleteOutlined />
+                          </Button>
+                        </Space>
                       </div>
                     </div>
                   </Col>

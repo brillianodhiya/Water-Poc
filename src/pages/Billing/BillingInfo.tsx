@@ -11,6 +11,7 @@ import {
   Tag,
   Table,
   Spin,
+  message,
 } from 'antd';
 import moment from 'moment';
 import 'moment/locale/id';
@@ -23,6 +24,7 @@ import BillingInvoice from './components/BillingInvoice';
 import BillingModal from './components/BillingModal';
 import { toCanvas } from 'html-to-image';
 import { converNumberSmNotFixed } from '@/components/config.usage';
+import api from '../../../config/axiosConfig';
 moment.locale('en');
 
 type Props = {};
@@ -74,7 +76,6 @@ const BillingInfo: React.FC<Props> = ({}) => {
 
     const data = await getBillingById(id);
 
-    console.log(data, 'data billing');
     setLoading(false);
 
     if (!data.error) {
@@ -109,6 +110,23 @@ const BillingInfo: React.FC<Props> = ({}) => {
       .catch((err) => {
         console.log(err, 'ERR');
       });
+  };
+
+  const handleChangeStatus = async (val: string) => {
+    try {
+      setLoading(true);
+      const w = await api.post('/billing/change/status/' + id, {
+        // status: new , unpaid, cancel, close
+        status: val,
+      });
+
+      setLoading(false);
+
+      if (w.status) {
+        getData();
+        message.success(w.data.message);
+      }
+    } catch (error) {}
   };
 
   return (
@@ -162,10 +180,27 @@ const BillingInfo: React.FC<Props> = ({}) => {
             <Button icon={<EditOutlined />}>Edit History</Button> */}
             </Space>
           </Col>
-          <Col>
+          <Col
+            style={{
+              display: 'flex',
+              gap: '8px',
+            }}
+          >
             {/* <Button danger icon={<DeleteOutlined />}>
               Cancel Billing
             </Button> */}
+
+            {dataBilling.status == 'new' ? (
+              <Button onClick={() => handleChangeStatus('unpaid')}>Unpaid</Button>
+            ) : null}
+            {dataBilling.status == 'unpaid' ? (
+              <Button onClick={() => handleChangeStatus('paid')}>Paid</Button>
+            ) : null}
+            {dataBilling.status == 'new' || dataBilling.status == 'unpaid' ? (
+              <Button danger onClick={() => handleChangeStatus('cancel')}>
+                Cancel
+              </Button>
+            ) : null}
           </Col>
         </Row>
         <Divider style={{ backgroundColor: '#1890FF', height: 2 }} />
