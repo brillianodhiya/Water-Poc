@@ -7,6 +7,10 @@ import { Input } from 'antd';
 // import InputAdornment from "@material-ui/core/InputAdornment";
 
 const convertNumberSm = (number) => {
+  return new Intl.NumberFormat('id-ID').format(number);
+};
+
+const convertNumberSmV1 = (number) => {
   // return new Intl.NumberFormat("id-ID").format(number)
   // if (number) {
   //   return number.replace(/[.,]/g, function (x) {
