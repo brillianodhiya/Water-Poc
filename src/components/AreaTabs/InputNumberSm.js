@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import NumberFormat from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 
 export const InputNumberSm = React.forwardRef(
   ({
@@ -18,7 +18,7 @@ export const InputNumberSm = React.forwardRef(
     ref,
   }) => {
     return (
-      <NumberFormat
+      <NumericFormat
         ref={ref}
         disabled={disabled}
         className={className}

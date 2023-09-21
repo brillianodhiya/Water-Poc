@@ -1,15 +1,9 @@
-import { Card, Row, Col, Typography, Space, Form, InputNumber, Modal, Spin, Empty } from 'antd';
+import { Card, Row, Col, Typography, Spin, notification, Radio } from 'antd';
 import React from 'react';
-import { WeCurrency } from '../Formatter/config.currency';
-import { ApiEditAreaPricing } from '@/services/nebula/area';
+import api from '../../../config/axiosConfig';
+import CardPricing from './CardPricing';
 
-function reverseRelation(
-  data: {
-    type_id: number;
-    type_name: string;
-    price_member: { id: number; name: string; price: number }[];
-  }[],
-): { id: number; name: string; types: { type_id: number; type_name: string; price: number }[] }[] {
+function reverseRelation(data: any[]) {
   // Inisialisasi objek kosong untuk menyimpan hasil
   const pricing_member = {};
 
@@ -57,150 +51,223 @@ const AreaPricing: React.FC<{
   getData: () => void;
   loadingArea: boolean;
 }> = ({ dataArea, getData, loadingArea }) => {
-  const [form] = Form.useForm();
-  const [areaPricing, setAreaPricing] = React.useState<
-    {
-      area_id: number;
-      createdAt?: string;
-      device_type: string;
-      id?: number;
-      price_per_device_type: number;
-      updatedAt?: string;
-      icon: string;
-      open?: boolean;
-    }[]
-  >(dataArea.Nebula_Area_Pricings);
+  const [radio, setRadio] = React.useState<any>();
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [dataMember, setDataMember] = React.useState([]);
 
   React.useEffect(() => {
-    setAreaPricing(dataArea.Nebula_Area_Pricings);
+    if (dataArea.Nebula_Area_Pricing_tiers && dataArea.Nebula_Area_members) {
+      setData(dataArea?.Nebula_Area_Pricing_tiers);
+      setDataMember(reverseRelation(dataArea?.Nebula_Area_Pricing_tiers));
+      setRadio(dataArea.pricing_type);
+    }
   }, [dataArea]);
 
-  const onFinish = async (values: any) => {
-    console.log(values);
+  console.log(dataMember);
 
-    const data = await ApiEditAreaPricing(areaPricing);
-    if (!data.error) {
-      Modal.success({
-        content: data.message,
-        onOk: () => {
-          getData();
-        },
+  const changePricingOption = (e: string) => {
+    setLoading(true);
+
+    api({
+      url: '/area/pricing/type/' + dataArea.id,
+      method: 'PUT',
+      data: {
+        pricing_type: e,
+      },
+    })
+      .then(() => {
+        setLoading(false);
+        setRadio(e);
+        getData();
+      })
+      .catch((err: any) => {
+        notification.error({
+          message: err.response.data.message,
+        });
       });
-    } else {
-      Modal.error({
-        content: data.message,
-      });
-    }
   };
-
   return (
-    <Spin spinning={loadingArea}>
-      <Form name="add-area" layout="vertical" form={form} onFinish={onFinish}>
-        <Row gutter={[16, 16]}>
-          {areaPricing.length > 0 ? (
-            areaPricing.map((val, idx) => {
-              return (
-                <Col key={val.id} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
-                  <Card
+    <div
+      style={{
+        paddingBottom: '8em',
+      }}
+    >
+      <Spin spinning={loading || loadingArea}>
+        <Row
+          gutter={[16, 16]}
+          style={{
+            marginTop: '24px',
+          }}
+        >
+          <Col xl={10} xxl={8} lg={12} md={24} sm={24} xs={24}>
+            <Card
+              style={{
+                borderRadius: '8px',
+                border: radio == 'all' ? '1px solid #1890ff' : undefined,
+              }}
+              headStyle={{
+                backgroundColor: radio == 'all' ? '#1890ff' : '#F0F0F0',
+                borderTopLeftRadius: '8px',
+                borderTopRightRadius: '8px',
+              }}
+              title={
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <Radio
+                    onChange={(e) => changePricingOption(e.target.checked ? 'all' : 'member')}
+                    checked={radio == 'all' ? true : false}
+                  />
+                  <Typography
                     style={{
-                      borderRadius: 8,
+                      color: radio == 'all' ? '#fff' : '#000',
                     }}
                   >
-                    <Row gutter={[16, 8]}>
-                      <Col span={20}>
-                        <Space>
-                          <img src={val.icon} alt={val.device_type} width={24} />
-                          <Typography>{val.device_type}</Typography>
-                        </Space>
-                      </Col>
-                      <Col span={4}>
-                        {val.open ? (
-                          <Typography.Link
-                            onClick={() => {
-                              form.submit();
-                            }}
-                          >
-                            Save
-                          </Typography.Link>
-                        ) : (
-                          <Typography.Link
-                            onClick={() => {
-                              const newArr = [...areaPricing];
-                              newArr[idx].open = true;
-                              setAreaPricing(newArr);
-
-                              form.setFields([
-                                {
-                                  name: val.device_type + '_amount',
-                                  value: val.price_per_device_type,
-                                },
-                              ]);
-                            }}
-                          >
-                            Edit
-                          </Typography.Link>
-                        )}
-                      </Col>
-                      <Col
-                        span={24}
+                    One Price For All Customer
+                  </Typography>
+                </div>
+              }
+              bodyStyle={{
+                background: '#F9F9F9',
+                borderRadius: '8px',
+              }}
+            >
+              <Row gutter={[16, 16]}>
+                {data.map((v: any) => {
+                  return (
+                    <Col key={v.type_name} xl={24} xxl={24} lg={24} md={24} sm={24} xs={24}>
+                      <CardPricing
+                        title={v.type_name}
+                        typeId={v.type_id}
+                        defaultData={v.price_all}
+                        key={v.type_name}
+                        is_member={radio == 'all' ? false : true}
+                        disabled={radio == 'all' ? false : true}
+                        getPricingPostpaid={getData}
+                        area_id={dataArea.id}
+                        loading={loading}
+                        setLoading={setLoading}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Card>
+          </Col>
+          <Col xl={14} xxl={16} lg={12} md={24} sm={24} xs={24}>
+            <Card
+              style={{
+                borderRadius: '8px',
+                border: radio == 'member' ? '1px solid #1890ff' : undefined,
+              }}
+              headStyle={{
+                backgroundColor: radio == 'member' ? '#1890ff' : '#F0F0F0',
+                borderTopLeftRadius: '8px',
+                borderTopRightRadius: '8px',
+              }}
+              title={
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <Radio
+                    onChange={(e) => changePricingOption(e.target.checked ? 'member' : 'all')}
+                    checked={radio == 'all' ? false : true}
+                  />
+                  <Typography
+                    style={{
+                      color: radio == 'member' ? '#fff' : '#000',
+                    }}
+                  >
+                    Setting Price Member Level
+                  </Typography>
+                </div>
+              }
+              bodyStyle={{
+                background: '#F9F9F9',
+                borderRadius: '8px',
+              }}
+            >
+              <Row gutter={[16, 16]}>
+                {dataMember.map((v: any) => {
+                  return (
+                    <Col span={24} key={v.id + v.name}>
+                      <Card
                         style={{
-                          marginTop: '12px',
+                          borderRadius: '8px',
+                          border: radio == 'member' ? '1px solid #1890ff' : undefined,
+                        }}
+                        headStyle={{
+                          backgroundColor: radio == 'member' ? '#1890ff' : '#F0F0F0',
+                          borderTopLeftRadius: '8px',
+                          borderTopRightRadius: '8px',
+                        }}
+                        title={
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                            }}
+                          >
+                            <Typography
+                              style={{
+                                color: radio == 'member' ? '#fff' : '#000',
+                              }}
+                            >
+                              {v.name}
+                            </Typography>
+                          </div>
+                        }
+                        bodyStyle={{
+                          background: '#F9F9F9',
+                          borderRadius: '8px',
                         }}
                       >
-                        <Typography.Text type="secondary">
-                          Price 1{' '}
-                          {val.device_type.toLowerCase().includes('electricity') ? 'Kwh' : 'm3'}
-                        </Typography.Text>
-                        {val.open ? (
-                          <Form.Item
-                            name={val.device_type + '_amount'}
-                            rules={[
-                              {
-                                required: true,
-                              },
-                              {
-                                type: 'number',
-                                message: 'price must be a number',
-                              },
-                            ]}
-                          >
-                            <InputNumber
-                              onChange={(value) => {
-                                const newArr = [...areaPricing];
-                                newArr[idx].price_per_device_type = value;
-                                setAreaPricing(newArr);
-                              }}
-                              style={{ width: '200px' }}
-                              placeholder={'Input Nominal'}
-                              formatter={(value) =>
-                                `Rp.${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                              }
-                              parser={(value: any) => value.replace(/(Rp.)\s?|(\.*)/g, '')}
-                            />
-                          </Form.Item>
-                        ) : (
-                          <Typography.Paragraph>
-                            {WeCurrency(val.price_per_device_type)}
-                          </Typography.Paragraph>
-                        )}
-                      </Col>
-                      {/* <Col span={24}>
-                  <Typography.Text type="secondary">ERP Item</Typography.Text>
-                  <Typography.Paragraph>4G WIFI Modem Router B310</Typography.Paragraph>
-                </Col> */}
-                    </Row>
-                  </Card>
-                </Col>
-              );
-            })
-          ) : (
-            <Col span={24}>
-              <Empty />
-            </Col>
-          )}
+                        <Row gutter={[16, 16]}>
+                          {v.types.map((v2: any) => {
+                            return (
+                              <Col
+                                key={v2.type_name}
+                                xl={12}
+                                xxl={12}
+                                lg={24}
+                                md={24}
+                                sm={24}
+                                xs={24}
+                              >
+                                <CardPricing
+                                  title={v2.type_name}
+                                  typeId={v2.type_id}
+                                  defaultData={v2.price}
+                                  key={v2.type_name}
+                                  is_member={radio == 'all' ? false : true}
+                                  disabled={radio == 'member' ? false : true}
+                                  getPricingPostpaid={getData}
+                                  member_id={v.id}
+                                  area_id={dataArea.id}
+                                  loading={loading}
+                                  setLoading={setLoading}
+                                />
+                              </Col>
+                            );
+                          })}
+                        </Row>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Card>
+          </Col>
         </Row>
-      </Form>
-    </Spin>
+      </Spin>
+    </div>
   );
 };
 

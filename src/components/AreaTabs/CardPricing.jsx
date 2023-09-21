@@ -1,6 +1,5 @@
-import { Button, Card, Col, Form, Row, Spin, Typography, notification } from 'antd';
+import { Button, Card, Col, Form, InputNumber, Row, Spin, Typography, notification } from 'antd';
 import React from 'react';
-import { InputNumberSm } from './InputNumberSm';
 import api from '../../../config/axiosConfig';
 
 const CardPricing = (props) => {
@@ -13,49 +12,46 @@ const CardPricing = (props) => {
     getPricingPostpaid,
     disabled,
     area_id,
+    loading,
+    setLoading,
   } = props;
 
-  const [loading, setLoading] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const [form] = Form.useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (values) => {
+    console.log('Received values of form: ', values);
     if (isEdit) {
       setLoading(true);
-      form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-          // props.onOk(props.devEui, values.pulse, 0);
-          api({
-            url: '/area/setting/pricing',
 
-            method: 'POST',
-            data: {
-              is_member: is_member,
-              type_id: typeId,
-              parameter_1: values.parameter_1,
-              price_1: values.price_1,
-              parameter_2: values.parameter_2,
-              price_2: values.price_2,
-              parameter_3: values.parameter_3,
-              price_3: values.price_3,
-              member_id: member_id,
-              area_id: area_id,
-            },
-          })
-            .then((ok) => {
-              getPricingPostpaid();
-              setLoading(false);
-              setIsEdit(false);
-            })
-            .catch((err) => {
-              notification.error({
-                message: err.response.data.message,
-              });
-            });
-        }
-      });
+      // props.onOk(props.devEui, values.pulse, 0);
+      api({
+        url: '/area/setting/pricing',
+
+        method: 'POST',
+        data: {
+          is_member: is_member,
+          type_id: typeId,
+          parameter_1: values.parameter_1,
+          price_1: values.price_1,
+          parameter_2: values.parameter_2,
+          price_2: values.price_2,
+          parameter_3: values.parameter_3,
+          price_3: values.price_3,
+          member_id: member_id,
+          area_id: area_id,
+        },
+      })
+        .then((ok) => {
+          getPricingPostpaid();
+          setLoading(false);
+          setIsEdit(false);
+        })
+        .catch((err) => {
+          notification.error({
+            message: err.response.data.message,
+          });
+        });
     } else {
       setIsEdit(true);
     }
@@ -107,7 +103,7 @@ const CardPricing = (props) => {
     >
       <div>
         <Spin spinning={loading}>
-          <Form form={form} name={title} onSubmit={handleSubmit}>
+          <Form form={form} name={title} onFinish={handleSubmit} layout="vertical">
             <Row gutter={[16, 16]}>
               <Col span={24}>
                 <div
@@ -134,7 +130,7 @@ const CardPricing = (props) => {
               </Col>
               <Col span={8}>
                 <Form.Item label="Parameter 1" name={'parameter_1'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     placeholder="Input"
                     style={{ width: '100%' }}
@@ -152,7 +148,7 @@ const CardPricing = (props) => {
                   />
                 </Form.Item>
                 <Form.Item label="Price" name={'price_1'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
@@ -169,7 +165,7 @@ const CardPricing = (props) => {
                 }}
               >
                 <Form.Item label="Parameter 2" name={'parameter_2'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     placeholder="Input"
                     style={{ width: '100%' }}
@@ -187,7 +183,7 @@ const CardPricing = (props) => {
                   />
                 </Form.Item>
                 <Form.Item label="Price" name={'price_2'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
@@ -198,7 +194,7 @@ const CardPricing = (props) => {
               </Col>
               <Col span={8}>
                 <Form.Item label="Parameter 3" name={'parameter_3'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
@@ -208,7 +204,7 @@ const CardPricing = (props) => {
                   />
                 </Form.Item>
                 <Form.Item label="Price" name={'price_3'} required>
-                  <InputNumberSm
+                  <InputNumber
                     //   size={"large"}
                     placeholder="Input"
                     style={{ width: '100%' }}
