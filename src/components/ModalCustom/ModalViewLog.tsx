@@ -20,6 +20,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { getDeviceLog } from '@/services/nebula/device';
 import { CSVLink } from 'react-csv';
+import { converNumberSmNotFixed } from '../config.usage';
 
 const titleCase = (s: string) =>
   s.replace(/^_*(.)|_+(.)/g, (_, c, d) => (c ? c.toUpperCase() : ' ' + d.toUpperCase()));
@@ -338,6 +339,8 @@ export const ModalViewLog: FunctionComponent<ViewLogTypes> = ({
                       return <Tag color="red">{text}</Tag>;
                     } else if (text == 'NO') {
                       return <Tag color="green">{text}</Tag>;
+                    } else if (typeof text == 'number') {
+                      return converNumberSmNotFixed(text);
                     } else {
                       return text;
                     }

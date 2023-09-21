@@ -9,6 +9,7 @@ import {
   // Typography
 } from 'antd';
 import { CheckOutlined, ExclamationOutlined } from '@ant-design/icons';
+import { converNumberSmNotFixed } from '@/components/config.usage';
 
 type ViewLogTypes = {
   loading: boolean;
@@ -80,7 +81,7 @@ export const WaterUsage: FunctionComponent<ViewLogTypes> = ({ loading, data }) =
                 }}
               >
                 <Typography style={{ fontSize: 24, fontWeight: 'bold' }}>
-                  {data.pemakaian_air} m3
+                  {converNumberSmNotFixed(data.pemakaian_air)} m3
                 </Typography>
                 <Typography style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.45)' }}>
                   The total consumption of water by tenants.
