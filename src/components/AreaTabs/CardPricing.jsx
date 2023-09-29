@@ -134,7 +134,8 @@ const CardPricing = (props) => {
                     style={{ width: '100%' }}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
-                    addOnBefore={'<'}
+                    addonBefore={'<'}
+                    min={0}
                     onChange={(e) =>
                       form.setFields([
                         {
@@ -152,6 +153,7 @@ const CardPricing = (props) => {
                     disabled={!isEdit}
                     placeholder="Input"
                     style={{ width: '100%' }}
+                    min={0}
                   />
                 </Form.Item>
               </Col>
@@ -169,7 +171,8 @@ const CardPricing = (props) => {
                     style={{ width: '100%' }}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
-                    addOnBefore={'>='}
+                    addonBefore={'>='}
+                    min={0}
                     onChange={(e) =>
                       form.setFields([
                         {
@@ -187,6 +190,7 @@ const CardPricing = (props) => {
                     disabled={!isEdit}
                     placeholder="Input"
                     style={{ width: '100%' }}
+                    min={0}
                   />
                 </Form.Item>
               </Col>
@@ -196,7 +200,8 @@ const CardPricing = (props) => {
                     //   size={"large"}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
-                    addOnBefore={'>='}
+                    addonBefore={'>='}
+                    min={0}
                     placeholder="Input"
                     style={{ width: '100%' }}
                   />
@@ -208,6 +213,7 @@ const CardPricing = (props) => {
                     style={{ width: '100%' }}
                     className={!isEdit ? 'edit-to-text' : ''}
                     disabled={!isEdit}
+                    min={0}
                   />
                 </Form.Item>
               </Col>
