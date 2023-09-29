@@ -122,18 +122,18 @@ export default [
     // icon: 'smile',
     component: './Sub Area Management/TenantInfo',
   },
-  // {
-  //   path: '/ticket',
-  //   name: 'Ticket',
-  //   // icon: 'smile',
-  //   component: './Ticketing/Ticketing',
-  // },
-  // {
-  //   path: '/ticket/create',
-  //   // name: 'Ticket',
-  //   // icon: 'smile',
-  //   component: './Ticketing/AddTicket',
-  // },
+  {
+    path: '/ticket',
+    name: 'Ticket',
+    // icon: 'smile',
+    component: './Ticketing/Ticketing',
+  },
+  {
+    path: '/ticket/create',
+    // name: 'Ticket',
+    // icon: 'smile',
+    component: './Ticketing/AddTicket',
+  },
   {
     path: '/users',
     name: 'User',
