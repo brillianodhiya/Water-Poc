@@ -24,7 +24,7 @@ type DataType = {
 const Ticketing: React.FC<{ isFocused: boolean }> = ({}) => {
   const [dataTicket, setDataTicket] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [dataSelected, setDataSelected] = React.useState<any>([]);
+  const [dataSelected, setDataSelected] = React.useState<any>({});
 
   const getData = async () => {
     setLoading(true);
@@ -47,15 +47,20 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({}) => {
   }, []);
 
   React.useEffect(() => {
-    if (dataTicket[0] && dataSelected.length == 0) {
+    if (dataTicket[0] && !dataSelected.id) {
       setDataSelected(dataTicket[0]);
     } else {
+      const w = dataTicket.filter((v: any) => v.id == dataSelected.id);
+
+      if (w.length > 0) {
+        setDataSelected(w[0]);
+      }
     }
   }, [dataTicket]);
 
   // console.log(typeof dataSelected.id, 'id');
 
-  console.log(dataSelected, 'DATASELECTED');
+  // console.log(dataSelected, 'DATASELECTED');
 
   return (
     <PageContainer
@@ -175,7 +180,7 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({}) => {
             />
           </Table>
         </Col>
-        <TicketingSide data={dataSelected} />
+        <TicketingSide data={dataSelected} getData={getData} />
       </Row>
     </PageContainer>
   );

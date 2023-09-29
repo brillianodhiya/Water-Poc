@@ -25,12 +25,14 @@ import 'moment/locale/id';
 import React from 'react';
 import { AttachmentIcon } from '../Icons/Attachment';
 import { TicketYellowIcon } from '../Icons/Ticket';
+import { history } from '@umijs/max';
 moment.locale('en');
 type TicketType = {
   data: any;
+  getData: () => void;
 };
 
-const TicketingSide: React.FC<TicketType> = ({ data }) => {
+const TicketingSide: React.FC<TicketType> = ({ data, getData }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
   const [dataTicket, setdataTicket] = React.useState<any>([]);
@@ -40,16 +42,16 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
   // const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   // const fileList: UploadFile[] = [];
 
-  const getData = async () => {
-    setLoading(true);
-    const d = await getTicketById(data.id);
-    setLoading(false);
-    if (!d.error) {
-      console.log(d, 'detail data');
-      const w = d.data.filter((v: any) => v.id == data.id);
-      setdataTicket(w[0]);
-    }
-  };
+  // const getData = async () => {
+  //   setLoading(true);
+  //   const d = await getTicketById(data.id);
+  //   setLoading(false);
+  //   if (!d.error) {
+  //     console.log(d, 'detail data');
+  //     const w = d.data.filter((v: any) => v.id == data.id);
+  //     setdataTicket(w[0]);
+  //   }
+  // };
 
   const getListTechnician = async () => {
     setLoading(true);
@@ -150,18 +152,18 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
           <Col>
             <Space>
               <TicketYellowIcon />
-              <Typography.Link style={{ fontSize: 16 }}>{dataTicket['No Tiket']}</Typography.Link>
+              <Typography.Link style={{ fontSize: 16 }}>{data['No Tiket']}</Typography.Link>
             </Space>
           </Col>
           <Col>
             <Typography>
-              Create Date : {moment(dataTicket['Create Date']).format('DD-MM-YYYY')}
+              Create Date : {moment(data['Create Date']).format('DD-MM-YYYY')}
             </Typography>
           </Col>
         </Row>
         {/* <Typography>Ticket No</Typography>
         <Typography.Title level={4} style={{ marginTop: 0 }}>
-          {dataTicket['No Tiket']}
+          {data['No Tiket']}
         </Typography.Title> */}
         <Typography
           style={{
@@ -170,7 +172,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
         >
           Note
         </Typography>
-        <Typography.Paragraph>{dataTicket.Note}</Typography.Paragraph>
+        <Typography.Paragraph>{data.Note}</Typography.Paragraph>
         <Card
           style={{
             borderRadius: 8,
@@ -183,7 +185,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Typography>Area</Typography>
-              <Typography.Text strong>{dataTicket['Area Name']}</Typography.Text>
+              <Typography.Text strong>{data['Area Name']}</Typography.Text>
             </Col>
             {/* <Col span={18}>
               <Typography>Installation</Typography>
@@ -191,7 +193,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             </Col> */}
             <Col span={6}>
               <Typography>Node Type</Typography>
-              <Typography.Text strong>{dataTicket['Node Type'] || '-'}</Typography.Text>
+              <Typography.Text strong>{data['Node Type'] || '-'}</Typography.Text>
             </Col>
             {/* <Col span={6}>
               <Typography>Scope</Typography>
@@ -199,7 +201,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             </Col> */}
             <Col span={18}>
               <Typography>Tenant Name</Typography>
-              <Typography.Text strong>{dataTicket['Tenant Name']}</Typography.Text>
+              <Typography.Text strong>{data['Tenant Name']}</Typography.Text>
             </Col>
           </Row>
         </Card>
@@ -211,7 +213,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             <Button icon={<EditOutlined />} type="text" onClick={() => setEditAttachment(true)} />
           </Col>
           {!editAttachment ? (
-            dataTicket?.Nebula_Images_Tickets?.map((e: any) => {
+            data?.Nebula_Images_Tickets?.map((e: any) => {
               return (
                 <>
                   <Col xxl={24}>
@@ -251,7 +253,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             <Space direction="vertical">
               <Typography>Status</Typography>
               {(() => {
-                if (dataTicket.status == 'new') {
+                if (data.status == 'new') {
                   return (
                     <Button
                       shape="round"
@@ -263,10 +265,10 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                         cursor: 'default',
                       }}
                     >
-                      {dataTicket.status}
+                      {data.status}
                     </Button>
                   );
-                } else if (dataTicket.status == 'on progress') {
+                } else if (data.status == 'on progress') {
                   return (
                     <Button
                       shape="round"
@@ -277,7 +279,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                         cursor: 'default',
                       }}
                     >
-                      {dataTicket.status}
+                      {data.status}
                     </Button>
                   );
                 } else {
@@ -290,7 +292,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                         cursor: 'default',
                       }}
                     >
-                      {dataTicket.status}
+                      {data.status}
                     </Button>
                   );
                 }
@@ -308,7 +310,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                   cursor: 'default',
                 }}
               >
-                {dataTicket['Ticket Type']}
+                {data['Ticket Type']}
               </Button>
             </Space>
           </Col>
@@ -316,11 +318,11 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             <Space direction="vertical">
               <Typography.Text>Technician</Typography.Text>
               {!editTechician && (
-                <Typography.Text strong>{dataTicket?.technician?.name}</Typography.Text>
+                <Typography.Text strong>{data['Technician Name']}</Typography.Text>
               )}
             </Space>
           </Col>
-          {/* {dataTicket.status == 'new' ? (
+          {/* {data.status == 'new' ? (
             <Col>
               {!editTechician && (
                 <Button type="primary" ghost onClick={() => setEditTechician(true)}>
@@ -375,7 +377,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                   fontWeight: 'bold',
                 }}
               >
-                {moment(dataTicket?.due_date).format('DD-MM-YYYY')}
+                {moment(data?.due_date).format('DD-MM-YYYY')}
               </Typography.Text>
             </Space>
           </Col> */}
@@ -390,8 +392,8 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                 current={1}
                 direction="vertical"
                 items={
-                  dataTicket.History
-                    ? dataTicket.History.map((v: any) => {
+                  data.History
+                    ? data.History.map((v: any) => {
                         return {
                           title: v.title,
                           description: moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss'),
@@ -402,13 +404,31 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
               />
             </Space>
           </Col>
-          <Col xxl={24}>
-            {dataTicket.status == 'new' ? (
+          <Col
+            xxl={24}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+            }}
+          >
+            {data.status == 'new' ? (
+              <Button
+                block
+                type="default"
+                size="large"
+                // style={{ padding: '0px 60px' }}
+                onClick={() => history.push('/ticket/' + data.id)}
+              >
+                Edit
+              </Button>
+            ) : null}
+            {data.status == 'new' ? (
               <Button
                 danger
                 block
                 size="large"
-                style={{ padding: '0px 60px' }}
+                // style={{ padding: '0px 60px' }}
                 onClick={() => handleCancel()}
               >
                 Cancel
