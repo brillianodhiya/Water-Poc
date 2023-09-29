@@ -135,6 +135,12 @@ export default [
     component: './Ticketing/AddTicket',
   },
   {
+    path: '/ticket/:id',
+    // name: 'Ticket',
+    // icon: 'smile',
+    component: './Ticketing/EditTicket',
+  },
+  {
     path: '/users',
     name: 'User',
     // icon: 'smile',

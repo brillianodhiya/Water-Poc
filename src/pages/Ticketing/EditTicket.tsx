@@ -2,7 +2,7 @@ import { AreaDropdown } from '@/components/CustomInput/AreaDropdown';
 import { TenantDropdown } from '@/components/CustomInput/TenantDropdown';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { history, useParams } from '@umijs/max';
 import {
   Breadcrumb,
   Button,
@@ -18,14 +18,14 @@ import {
   Typography,
 } from 'antd';
 
-import { getDevice, getTechnician, getTicketNodeType } from '@/services/nebula/ticket';
+import { getDevice, getTechnician, getTicket, getTicketNodeType } from '@/services/nebula/ticket';
 import moment from 'moment';
 import 'moment/locale/id';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import api from '../../../config/axiosConfig';
 moment.locale('en');
-const AddTicket = () => {
+const EditTicket = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
   const [dataTechnician, setDataTechnician] = React.useState<any>([]);
@@ -34,6 +34,23 @@ const AddTicket = () => {
   const [deviceCore, setDeviceCore] = React.useState<any[]>([]);
   const [selectedTenant, setSelectedTenant] = React.useState(1);
   const [selectedType, setSelectedType] = React.useState(1);
+  const [dataTicket, setDataTicket] = React.useState([]);
+  const params = useParams();
+  console.log(params, 'params');
+
+  const getDataTicket = async () => {
+    setLoading(true);
+    const data = await getTicket({
+      params: {
+        id: params.id,
+      },
+    });
+    setLoading(false);
+    if (!data.error) {
+      setDataTicket(data.data[0]);
+    }
+  };
+  console.log(dataTicket, 'data ticket');
 
   const getData = async () => {
     setLoading(true);
@@ -83,8 +100,8 @@ const AddTicket = () => {
     };
 
     const data = await api({
-      url: '/ticket/iki/create',
-      method: 'POST',
+      url: '/ticket/iki/edit/' + params.id,
+      method: 'PATCH',
       data: body,
     });
     setLoading(false);
@@ -110,11 +127,47 @@ const AddTicket = () => {
     getData();
     getNodeType();
     getDeviceId();
+    getDataTicket();
   };
 
   React.useEffect(() => {
     getDataApi();
   }, [selectedType, selectedTenant]);
+
+  React.useEffect(() => {
+    if (dataTicket) {
+      form.setFields([
+        {
+          name: 'area_id',
+          value: dataTicket?.area_id,
+        },
+        {
+          name: 'tenant_id',
+          value: dataTicket?.tenant_id,
+        },
+        {
+          name: 'type_id',
+          value: dataTicket?.type_id,
+        },
+        {
+          name: 'technician',
+          value: dataTicket?.technician_id,
+        },
+        {
+          name: 'type_ticket',
+          value: dataTicket['Ticket Type'],
+        },
+        {
+          name: 'deveui',
+          value: dataTicket?.node_id,
+        },
+        {
+          name: 'note',
+          value: dataTicket.Note,
+        },
+      ]);
+    }
+  }, [dataTicket]);
 
   return (
     <PageContainer
@@ -129,9 +182,9 @@ const AddTicket = () => {
             <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
               <Breadcrumb>
                 <Breadcrumb.Item>Ticket</Breadcrumb.Item>
-                <Breadcrumb.Item href="#">Add Ticket</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">Edit Ticket</Breadcrumb.Item>
               </Breadcrumb>
-              <Typography.Title level={5}>Add Ticket</Typography.Title>
+              <Typography.Title level={5}>Edit Ticket</Typography.Title>
             </div>
           </Space>
         </Button>
@@ -176,6 +229,7 @@ const AddTicket = () => {
                   onChange={(value) => {
                     console.log(value, 'area id');
                   }}
+                  disabled
                 />
               </Form.Item>
 
@@ -190,6 +244,7 @@ const AddTicket = () => {
                     console.log('tenant id', value);
                     setSelectedTenant(value);
                   }}
+                  disabled
                 />
               </Form.Item>
               <Form.Item
@@ -226,6 +281,7 @@ const AddTicket = () => {
                   ]}
                   placeholder={'Type Ticket'}
                   onChange={(value) => setTypeTicket(value)}
+                  disabled
                 />
               </Form.Item>
 
@@ -236,6 +292,7 @@ const AddTicket = () => {
                 requiredMark="optional"
               >
                 <Select
+                  disabled
                   placeholder="Device Type"
                   onChange={(value) => {
                     console.log(value, 'device type');
@@ -259,7 +316,7 @@ const AddTicket = () => {
                   rules={[{ required: true, message: 'Please selet DevEui!' }]}
                   requiredMark="optional"
                 >
-                  <Select placeholder="DevEui" className="not-rounded">
+                  <Select placeholder="DevEui" className="not-rounded" disabled>
                     {deviceCore.map((v: any) => {
                       return (
                         <Select.Option key={v.id} value={v.devEui}>
@@ -311,4 +368,4 @@ const AddTicket = () => {
   );
 };
 
-export default AddTicket;
+export default EditTicket;
