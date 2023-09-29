@@ -21,7 +21,7 @@ type DataType = {
   type_ticket: string;
 };
 
-const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
+const Ticketing: React.FC<{ isFocused: boolean }> = ({}) => {
   const [dataTicket, setDataTicket] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [dataSelected, setDataSelected] = React.useState<any>([]);
@@ -31,7 +31,7 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
     const data = await getTicket({});
     setLoading(false);
     if (!data.error) {
-      console.log(data, 'data ticket');
+      // console.log(data, 'data ticket');
       setDataTicket(data.data);
     }
   };
@@ -47,12 +47,15 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
   }, []);
 
   React.useEffect(() => {
-    if (dataTicket[0]) {
+    if (dataTicket[0] && dataSelected.length == 0) {
       setDataSelected(dataTicket[0]);
+    } else {
     }
   }, [dataTicket]);
 
   // console.log(typeof dataSelected.id, 'id');
+
+  console.log(dataSelected, 'DATASELECTED');
 
   return (
     <PageContainer
@@ -87,7 +90,15 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
         }}
       />
       <Row gutter={[24, 16]}>
-        <Col xxl={8} xl={8} lg={8} md={12} sm={24} xs={24}>
+        <Col
+          // xxl={8} xl={8} lg={8} md={12} sm={24} xs={24}
+          xxl={8}
+          xl={8}
+          lg={8}
+          md={12}
+          sm={24}
+          xs={24}
+        >
           <Table
             dataSource={dataTicket}
             loading={loading}
@@ -101,30 +112,32 @@ const Ticketing: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
             pagination={false}
           >
             <Column
-              title="Ticket Name"
-              dataIndex="ticket_name"
-              key="ticket_name"
+              title="No Tiket"
+              dataIndex="No Tiket"
+              key="No Tiket"
               render={(_, record: DataType) => {
-                if (record.ticket_name.length > 25) {
+                if (record['No Tiket'].length > 25) {
                   return (
                     <Typography.Text strong>
-                      {record.ticket_name.slice(0, 25) + '...'}
+                      {record['No Tiket'].slice(0, 25) + '...'}
                     </Typography.Text>
                   );
                 } else {
-                  return <Typography.Text strong>{record.ticket_name}</Typography.Text>;
+                  return <Typography.Text strong>{record['No Tiket']}</Typography.Text>;
                 }
               }}
             />
             <Column
-              title="Type"
-              dataIndex="type"
-              key="type"
+              title="Ticket Type"
+              dataIndex="Ticket Type"
+              key="Ticket Type"
               render={(_, record: DataType) => {
-                if (record.type == 'Preventive Maint') {
-                  return <Typography.Text type="secondary">{record.type_ticket}</Typography.Text>;
+                if (record['Ticket Type'] == 'Preventive Maint') {
+                  return (
+                    <Typography.Text type="secondary">{record['Ticket Type']}</Typography.Text>
+                  );
                 } else {
-                  return <Typography.Text>{record.type_ticket}</Typography.Text>;
+                  return <Typography.Text>{record['Ticket Type']}</Typography.Text>;
                 }
               }}
             />

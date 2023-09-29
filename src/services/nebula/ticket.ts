@@ -13,7 +13,7 @@ export async function getTicket(options: object | undefined) {
   // console.log(token, 'TOKEN');
 
   try {
-    const { data } = await api.get<APINebula.DefaultApiObj>('/ticket', {
+    const { data } = await api.get<APINebula.DefaultApiObj>('/ticket/iki/all', {
       method: 'GET',
 
       ...(options || {}),
@@ -184,14 +184,9 @@ export const UpdateTechnicianTicket = async (values: { no_ticket: string; techni
     }
   }
 };
-export const UpdateStatusTicket = async (values: { no_ticket: string; action: string }) => {
+export const UpdateStatusTicket = async (values: { id: string }) => {
   try {
-    const { data } = await api.put<APINebula.PostResponse>(
-      '/ticket/update/status/' + values.no_ticket,
-      {
-        action: values.action,
-      },
-    );
+    const { data } = await api.put<APINebula.PostResponse>('/ticket/iki/cancel/' + values.id);
 
     return {
       ...data,
@@ -229,8 +224,11 @@ export const getTicketById = async (id: number) => {
   // console.log(token, 'TOKEN');
 
   try {
-    const { data } = await api.get<APINebula.DefaultApiObj>(`/ticket/${id}`, {
+    const { data } = await api.get<APINebula.DefaultApiObj>(`/ticket/iki/all`, {
       method: 'GET',
+      params: {
+        id: id,
+      },
     });
 
     return {

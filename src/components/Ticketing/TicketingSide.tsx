@@ -46,7 +46,8 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
     setLoading(false);
     if (!d.error) {
       console.log(d, 'detail data');
-      setdataTicket(d.data);
+      const w = d.data.filter((v: any) => v.id == data.id);
+      setdataTicket(w[0]);
     }
   };
 
@@ -82,13 +83,13 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
 
   const handleCancel = () => {
     Modal.confirm({
-      title: 'Are you sure to Cancel  ?',
+      title: 'Are you sure to Cancel ?',
+      content: 'Ticket No ' + data['No Tiket'],
       icon: <WarningFilled />,
       onOk: async () => {
         setLoading(true);
         const d = await UpdateStatusTicket({
-          no_ticket: dataTicket.no_ticket,
-          action: 'cancelled',
+          id: data.id,
         });
         setLoading(false);
         if (!d.error) {
@@ -118,7 +119,8 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
   // };
   React.useEffect(() => {
     if (data.id) {
-      getData();
+      // getData();
+      setdataTicket(data);
       setEditTechician(false);
     }
   }, [data.id]);
@@ -148,17 +150,27 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
           <Col>
             <Space>
               <TicketYellowIcon />
-              <Typography.Link style={{ fontSize: 16 }}>{dataTicket?.no_ticket}</Typography.Link>
+              <Typography.Link style={{ fontSize: 16 }}>{dataTicket['No Tiket']}</Typography.Link>
             </Space>
           </Col>
           <Col>
-            <Typography>Create Date : {moment().format('DD-MM-YYYY')}</Typography>
+            <Typography>
+              Create Date : {moment(dataTicket['Create Date']).format('DD-MM-YYYY')}
+            </Typography>
           </Col>
         </Row>
-        <Typography>Ticket Name</Typography>
-        <Typography.Title level={4}>{dataTicket.ticket_name}</Typography.Title>
-        <Typography.Text strong>Message</Typography.Text>
-        <Typography.Paragraph>{dataTicket.message}</Typography.Paragraph>
+        {/* <Typography>Ticket No</Typography>
+        <Typography.Title level={4} style={{ marginTop: 0 }}>
+          {dataTicket['No Tiket']}
+        </Typography.Title> */}
+        <Typography
+          style={{
+            marginTop: '12px',
+          }}
+        >
+          Note
+        </Typography>
+        <Typography.Paragraph>{dataTicket.Note}</Typography.Paragraph>
         <Card
           style={{
             borderRadius: 8,
@@ -171,7 +183,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Typography>Area</Typography>
-              <Typography.Text strong>{dataTicket?.Nebula_Area?.area_name}</Typography.Text>
+              <Typography.Text strong>{dataTicket['Area Name']}</Typography.Text>
             </Col>
             {/* <Col span={18}>
               <Typography>Installation</Typography>
@@ -179,7 +191,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             </Col> */}
             <Col span={6}>
               <Typography>Node Type</Typography>
-              <Typography.Text strong>{dataTicket?.type_id?.name || '-'}</Typography.Text>
+              <Typography.Text strong>{dataTicket['Node Type'] || '-'}</Typography.Text>
             </Col>
             {/* <Col span={6}>
               <Typography>Scope</Typography>
@@ -187,11 +199,11 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
             </Col> */}
             <Col span={18}>
               <Typography>Tenant Name</Typography>
-              <Typography.Text strong>{dataTicket?.Nebula_Tenant?.name}</Typography.Text>
+              <Typography.Text strong>{dataTicket['Tenant Name']}</Typography.Text>
             </Col>
           </Row>
         </Card>
-        <Row style={{ width: 500 }} gutter={[8, 8]}>
+        {/* <Row style={{ width: 500 }} gutter={[8, 8]}>
           <Col span={16}>
             <Typography>Attachment</Typography>
           </Col>
@@ -210,12 +222,8 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                       </Typography>
                     </Space>
                   </Col>
-                  {/* <Col xxl={8}>
-                      <Button icon={<DeleteOutlined />} type="text" />
-                    </Col> */}
                 </>
               );
-              // return e.name_file.substring(e.name_file.lastIndexOf('/') + 1);
             })
           ) : (
             <Col span={24}>
@@ -224,7 +232,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
               </Upload>
             </Col>
           )}
-        </Row>
+        </Row> */}
       </Col>
       <Col
         xxl={6}
@@ -252,6 +260,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                         backgroundColor: '#52C41A',
                         color: 'white',
                         textTransform: 'capitalize',
+                        cursor: 'default',
                       }}
                     >
                       {dataTicket.status}
@@ -265,6 +274,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                       style={{
                         backgroundColor: '#1890FF',
                         color: 'white',
+                        cursor: 'default',
                       }}
                     >
                       {dataTicket.status}
@@ -272,7 +282,14 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                   );
                 } else {
                   return (
-                    <Button shape="round" size="large" disabled>
+                    <Button
+                      shape="round"
+                      size="large"
+                      disabled
+                      style={{
+                        cursor: 'default',
+                      }}
+                    >
                       {dataTicket.status}
                     </Button>
                   );
@@ -288,9 +305,10 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                 size="large"
                 style={{
                   textTransform: 'capitalize',
+                  cursor: 'default',
                 }}
               >
-                {dataTicket.type_ticket}
+                {dataTicket['Ticket Type']}
               </Button>
             </Space>
           </Col>
@@ -302,7 +320,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
               )}
             </Space>
           </Col>
-          {dataTicket.status == 'new' ? (
+          {/* {dataTicket.status == 'new' ? (
             <Col>
               {!editTechician && (
                 <Button type="primary" ghost onClick={() => setEditTechician(true)}>
@@ -310,9 +328,9 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                 </Button>
               )}
             </Col>
-          ) : null}
-          <Col span={24}>
-            {editTechician && (
+          ) : null} */}
+          {editTechician && (
+            <Col span={24}>
               <Form form={form} onFinish={onFinish}>
                 <Row>
                   <Col span={12}>
@@ -346,9 +364,9 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                   </Col>
                 </Row>
               </Form>
-            )}
-          </Col>
-          <Col span={24}>
+            </Col>
+          )}
+          {/* <Col span={24}>
             <Space direction="vertical">
               <Typography.Text>Due Date</Typography.Text>
               <Typography.Text
@@ -360,7 +378,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                 {moment(dataTicket?.due_date).format('DD-MM-YYYY')}
               </Typography.Text>
             </Space>
-          </Col>
+          </Col> */}
           <Col xxl={24}>
             <Space direction="vertical">
               <Space>
@@ -371,25 +389,21 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
                 progressDot
                 current={1}
                 direction="vertical"
-                items={[
-                  {
-                    title: 'Distribution to Sonja Crooks MD',
-                    description: '2022-11-17 22:20:44',
-                  },
-                  {
-                    title: 'Assigned to Aliice Bayer',
-                    description: '2022-11-17 22:20:44',
-                  },
-                  {
-                    title: 'Created by Admin',
-                    description: '2022-11-17 22:20:44',
-                  },
-                ]}
+                items={
+                  dataTicket.History
+                    ? dataTicket.History.map((v: any) => {
+                        return {
+                          title: v.title,
+                          description: moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+                        };
+                      })
+                    : []
+                }
               />
             </Space>
           </Col>
           <Col xxl={24}>
-            {dataTicket.status != 'cancelled' ? (
+            {dataTicket.status == 'new' ? (
               <Button
                 danger
                 block
@@ -399,11 +413,7 @@ const TicketingSide: React.FC<TicketType> = ({ data }) => {
               >
                 Cancel
               </Button>
-            ) : (
-              <Button danger block size="large" style={{ padding: '0px 60px' }} onClick={() => {}}>
-                Close
-              </Button>
-            )}
+            ) : null}
           </Col>
         </Row>
       </Col>
