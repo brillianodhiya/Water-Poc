@@ -803,7 +803,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                         fontWeight: 'bold',
                       }}
                     >
-                      Jaringan Pipa Air Bersih
+                      Device
                     </Typography>
                   </Space>
                   {/* <Button
