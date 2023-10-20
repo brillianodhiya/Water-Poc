@@ -349,6 +349,7 @@ const TenantInfo: React.FC = () => {
         onOk={() => {
           setModalInterval(false);
           getData();
+          getDataDevice();
         }}
       />
       <EditDescription
@@ -362,6 +363,7 @@ const TenantInfo: React.FC = () => {
         onOk={() => {
           setModalDescription(false);
           getData();
+          getDataDevice();
         }}
       />
       <ModalViewDetailNode
