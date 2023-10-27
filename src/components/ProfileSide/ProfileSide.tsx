@@ -4,6 +4,7 @@ import { history } from '@umijs/max';
 import { Avatar, Button, Card, Col, Input, Row, Space, Typography } from 'antd';
 import type { FunctionComponent } from 'react';
 import React from 'react';
+import { decompress } from 'compress-json';
 
 const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
   // const [listType, setListType] = React.useState('tenant');
@@ -18,11 +19,12 @@ const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
         area_id: area_id,
       },
     });
-    console.log(data, 'data tenant');
+    const dec = decompress(data.data);
+    console.log(dec, 'data tenant');
     setLoading(false);
     if (!data.error) {
-      setDataTenant(data.data);
-      setDataTenantFill(data.data);
+      setDataTenant(dec);
+      setDataTenantFill(dec);
     }
   };
 
@@ -108,89 +110,96 @@ const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
           }}
         >
           {dataTenant.length > 0 && !loading
-            ? dataTenant.map((val) => {
-                return (
-                  <Card
-                    loading={loading}
-                    bordered={false}
-                    key={val.id}
-                    style={{
-                      //   borderRadius: 9,
-                      marginBottom: 8,
-                    }}
-                    bodyStyle={{
-                      backgroundColor: '#FAFAFA',
-                      padding: 12,
-                    }}
-                  >
-                    <div
+            ? dataTenant
+                .filter((v, idx) => idx <= 50)
+                .map((val) => {
+                  return (
+                    <Card
+                      loading={loading}
+                      bordered={false}
+                      key={val.id}
                       style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '24px',
-                        overflow: 'visible',
+                        //   borderRadius: 9,
+                        marginBottom: 8,
                       }}
-                      onClick={() =>
-                        history.push('/area/tenant', {
-                          tenant_id: val.id,
-                          area_id: area_id,
-                        })
-                      }
+                      bodyStyle={{
+                        backgroundColor: '#FAFAFA',
+                        padding: 12,
+                      }}
                     >
-                      <div>
-                        {val.logo && val.logo !== '' ? (
-                          <Avatar icon={<UserOutlined />} size={60} shape="square" src={val.logo} />
-                        ) : (
-                          <Avatar icon={<UserOutlined />} size={60} shape="square" />
-                        )}
-                      </div>
                       <div
                         style={{
-                          width: '100%',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          gap: '24px',
                           overflow: 'visible',
                         }}
+                        onClick={() =>
+                          history.push('/area/tenant', {
+                            tenant_id: val.id,
+                            area_id: area_id,
+                          })
+                        }
                       >
+                        <div>
+                          {val.logo && val.logo !== '' ? (
+                            <Avatar
+                              icon={<UserOutlined />}
+                              size={60}
+                              shape="square"
+                              src={val.logo}
+                            />
+                          ) : (
+                            <Avatar icon={<UserOutlined />} size={60} shape="square" />
+                          )}
+                        </div>
                         <div
                           style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
                             width: '100%',
-                            flexDirection: 'column',
-                            gap: '14px',
+                            overflow: 'visible',
                           }}
                         >
-                          <div>
-                            <Typography.Text style={{ fontSize: 16 }}>{val.name}</Typography.Text>
-                          </div>
                           <div
                             style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
                               width: '100%',
+                              flexDirection: 'column',
+                              gap: '14px',
                             }}
                           >
+                            <div>
+                              <Typography.Text style={{ fontSize: 16 }}>{val.name}</Typography.Text>
+                            </div>
                             <div
                               style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
                                 width: '100%',
                               }}
                             >
-                              <Space>
-                                <UserOutlined style={{ color: '#1890FF' }} />
-                                <Typography>{val.pic_name}</Typography>
-                              </Space>
-                              <Space style={{ float: 'right' }}>
-                                <PhoneOutlined style={{ color: '#1890FF' }} />
-                                <Typography>{val.phone}</Typography>
-                              </Space>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  width: '100%',
+                                }}
+                              >
+                                <Space>
+                                  <UserOutlined style={{ color: '#1890FF' }} />
+                                  <Typography>{val.pic_name}</Typography>
+                                </Space>
+                                <Space style={{ float: 'right' }}>
+                                  <PhoneOutlined style={{ color: '#1890FF' }} />
+                                  <Typography>{val.phone}</Typography>
+                                </Space>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Card>
-                );
-              })
+                    </Card>
+                  );
+                })
             : null}
         </Col>
       </Row>

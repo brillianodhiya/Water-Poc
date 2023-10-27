@@ -13,7 +13,7 @@ export async function getListTenant(options: object | undefined) {
   // console.log(token, 'TOKEN');
 
   try {
-    const { data } = await api.get<APINebula.ApiListTenant>('/tenant', {
+    const { data } = await api.get<APINebula.ApiListTenant>('/tenant/compress', {
       method: 'GET',
 
       ...(options || {}),
