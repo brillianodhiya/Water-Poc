@@ -111,7 +111,7 @@ const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
         >
           {dataTenant.length > 0 && !loading
             ? dataTenant
-                .filter((v, idx) => idx <= 50)
+                .filter((v, idx) => idx <= 100)
                 .map((val) => {
                   return (
                     <Card
