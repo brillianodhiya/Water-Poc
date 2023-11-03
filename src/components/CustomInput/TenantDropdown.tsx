@@ -14,6 +14,10 @@ export const TenantDropdown: React.FC<{
   const [dataTenant, setDataTenant] = useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
 
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input: string, option?: { label: string; value: string }) =>
+    (option?.children ?? '').toLowerCase().includes(input.toLowerCase());
+
   const getDataTenant = async () => {
     setLoading(true);
     const data = await getListTenant({
@@ -35,12 +39,14 @@ export const TenantDropdown: React.FC<{
 
   return (
     <Select
+      showSearch
       value={value}
       placeholder="Tenant Name"
       loading={loading}
       onChange={onChange}
       className={type}
-      style={style}
+      optionFilterProp="children"
+      filterOption={filterOption}
       disabled={disabled}
     >
       {useAll && (

@@ -19,7 +19,8 @@ const ProfileSide: FunctionComponent<any> = ({ area_id }) => {
         area_id: area_id,
       },
     });
-    const dec = decompress(data.data);
+    // const dec = decompress(data.data);
+    const dec = data.data;
     console.log(dec, 'data tenant');
     setLoading(false);
     if (!data.error) {
