@@ -23,6 +23,7 @@ import {
 import Column from 'antd/lib/table/Column';
 import moment from 'moment';
 import React from 'react';
+import { CSVLink } from 'react-csv';
 import { Helmet } from 'react-helmet';
 
 /**
@@ -63,7 +64,6 @@ const Billing: React.FC = ({}) => {
         search: search ? search : undefined,
       },
     });
-    console.log(data);
     setLoading(false);
     if (!data.error) {
       setDataBilling(data.data);
@@ -78,6 +78,34 @@ const Billing: React.FC = ({}) => {
   const handleExportCsv = () => {
     exportExcelv2AntTable()('billing', 'Billing ', 'Billing ' + moment().unix());
   };
+
+  const generateDataForCSV = () => {
+    const arr: {
+      invoice: any;
+      area_name: any;
+      tenant_name: any;
+      periode: any;
+      usage: string;
+      status: any;
+      grand_total: any;
+    }[] = [];
+
+    dataBilling.map((item) => {
+      arr.push({
+        invoice: item.invoice,
+        area_name: item.Nebula_Area.area_name,
+        tenant_name: item.Nebula_Tenant.name,
+        periode: item.periode,
+        usage: converNumberSmNotFixed(item.usage),
+        status: item.status,
+        grand_total: rupiahFormat(item.grand_total),
+      });
+    });
+
+    return arr;
+  };
+
+  const useDataCSV = generateDataForCSV();
 
   return (
     <div>
@@ -188,9 +216,27 @@ const Billing: React.FC = ({}) => {
             </Space>
           </Col>
           <Col style={{ paddingTop: 20 }}>
-            <Button type="primary" icon={<ExportOutlined />} onClick={handleExportCsv}>
-              Export
-            </Button>
+            <CSVLink
+              data={useDataCSV}
+              headers={[
+                { label: 'No Invoice', key: 'invoice' },
+                { label: 'Area Name', key: 'area_name' },
+                { label: 'Tenant', key: 'tenant_name' },
+                { label: 'Periode', key: 'periode' },
+                { label: 'Usage', key: 'usage' },
+                { label: 'Status', key: 'status' },
+                { label: 'Amount', key: 'grand_total' },
+              ]}
+              filename={`Billing_${moment().format('YYYY-MM')}_${moment().unix()}.csv`}
+            >
+              <Button
+                type="primary"
+                icon={<ExportOutlined />}
+                // onClick={handleExportCsv}
+              >
+                Export
+              </Button>
+            </CSVLink>
           </Col>
         </Row>
       </Card>
@@ -294,7 +340,7 @@ const Billing: React.FC = ({}) => {
         />
       </Table>
 
-      <div style={{ opacity: 0, position: 'fixed' }}>
+      {/* <div style={{ opacity: 0, position: 'fixed' }}>
         <a id="dlink"></a>
 
         <Table id="billing" dataSource={dataBilling} loading={loading} pagination={false}>
@@ -338,7 +384,7 @@ const Billing: React.FC = ({}) => {
             }}
           />
         </Table>
-      </div>
+      </div> */}
     </div>
   );
 };

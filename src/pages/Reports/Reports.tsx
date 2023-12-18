@@ -2,7 +2,18 @@
 // import { PageContainer } from '@ant-design/pro-components';
 import { ExportOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
-import { Button, Card, Col, DatePicker, Divider, Row, Space, Table, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Divider,
+  Row,
+  Select,
+  Space,
+  Table,
+  Typography,
+} from 'antd';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 // import Internal from './Internal';
@@ -26,6 +37,8 @@ const Reports: React.FC = () => {
   const [areaId, setAreaId] = React.useState<any>(0);
   const [tenantId, setTenantId] = React.useState<any>(0);
   const [periode, setPeriode] = React.useState<Moment>(moment());
+  const [range, setRange] = React.useState<[Moment, Moment]>([moment(), moment().add(1, 'day')]);
+  const [filterType, setFilterType] = React.useState('periode');
 
   const handleExportCsv = () => {
     exportExcelv2AntTable()('reports-log', 'Reports Log ', 'Reports Log ' + moment().unix());
@@ -37,7 +50,10 @@ const Reports: React.FC = () => {
       params: {
         area_id: areaId ? areaId : undefined,
         tenant_id: tenantId ? tenantId : undefined,
-        periode: periode.format('YYYY-MM'),
+        periode: filterType == 'periode' ? periode.format('YYYY-MM') : undefined,
+        start_date: filterType != 'periode' ? range[0].format('YYYY-MM-DD') : undefined,
+        end_date: filterType != 'periode' ? range[1].format('YYYY-MM-DD') : undefined,
+        type: filterType,
       },
     });
 
@@ -51,8 +67,6 @@ const Reports: React.FC = () => {
     getReportData();
     return () => {};
   }, [periode, areaId, tenantId]);
-
-  console.log(DataReports);
 
   const generateDataForCSV = () => {
     const arr = [
@@ -182,13 +196,45 @@ const Reports: React.FC = () => {
             <Col span={24} style={{ textAlign: 'left' }}>
               <Space size={'large'} wrap>
                 <Space direction="vertical">
-                  <Typography>Periode</Typography>
-                  <DatePicker.MonthPicker
-                    allowClear={false}
-                    value={periode}
-                    onChange={(v: any) => setPeriode(v)}
-                  />
+                  <Typography
+                    style={{
+                      opacity: 0,
+                    }}
+                  >
+                    Filter Type
+                  </Typography>
+                  <Select
+                    style={{
+                      width: 120,
+                    }}
+                    value={filterType}
+                    onChange={(val) => {
+                      setFilterType(val);
+                    }}
+                  >
+                    <Select.Option value="periode">Periode</Select.Option>
+                    <Select.Option value="range">Range</Select.Option>
+                  </Select>
                 </Space>
+                {filterType == 'periode' ? (
+                  <Space direction="vertical">
+                    <Typography>Periode</Typography>
+                    <DatePicker.MonthPicker
+                      allowClear={false}
+                      value={periode}
+                      onChange={(v: any) => setPeriode(v)}
+                    />
+                  </Space>
+                ) : (
+                  <Space direction="vertical">
+                    <Typography>Range</Typography>
+                    <DatePicker.RangePicker
+                      allowClear={false}
+                      value={range}
+                      onChange={(v: any) => setRange(v)}
+                    />
+                  </Space>
+                )}
                 <Space direction="vertical">
                   <Typography>Area Name</Typography>
                   <AreaDropdown
@@ -314,7 +360,7 @@ const Reports: React.FC = () => {
           {/* <Column title="Unit" dataIndex={['node_type', 'satuan']} /> */}
         </Table>
 
-        <div style={{ opacity: 0, position: 'fixed' }}>
+        {/* <div style={{ opacity: 0, position: 'fixed' }}>
           <a id="dlink" />
           <Table
             dataSource={DataReports}
@@ -378,9 +424,10 @@ const Reports: React.FC = () => {
               />
             </ColumnGroup>
 
-            {/* <Column title="Unit" dataIndex={['node_type', 'satuan']} /> */}
+            {/* <Column title="Unit" dataIndex={['node_type', 'satuan']} />
           </Table>
         </div>
+        */}
       </div>
     </>
   );

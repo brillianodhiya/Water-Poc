@@ -404,11 +404,11 @@ function Map({
         // }
 
         const w = CalculateCenter(devices);
-        // console.log(devices, 'WW');
+        // console.log(w, 'WW');
         setTimeout(() => {
           setCenter({
-            lat: w.lat,
-            lng: w.lng,
+            lat: devices[0].latitude,
+            lng: devices[0].longitude,
           });
         }, 1000);
       }
