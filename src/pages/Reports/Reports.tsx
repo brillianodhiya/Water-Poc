@@ -66,7 +66,7 @@ const Reports: React.FC = () => {
   React.useEffect(() => {
     getReportData();
     return () => {};
-  }, [periode, areaId, tenantId]);
+  }, [periode, areaId, tenantId, filterType]);
 
   const generateDataForCSV = () => {
     const arr = [
