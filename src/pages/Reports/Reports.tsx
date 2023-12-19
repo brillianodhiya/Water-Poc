@@ -66,7 +66,7 @@ const Reports: React.FC = () => {
   React.useEffect(() => {
     getReportData();
     return () => {};
-  }, [periode, areaId, tenantId, filterType]);
+  }, [periode, areaId, tenantId, filterType, range]);
 
   const generateDataForCSV = () => {
     const arr = [
@@ -156,7 +156,7 @@ const Reports: React.FC = () => {
         A5: `'${item.deveui}`,
         A6: item.meter_id,
         A7: `'${item.tenant_name}`,
-        A8: moment(item.Periode).format('MMM YYYY'),
+        A8: item.periode,
         A9: moment(item.start_date).format('DD/MM/YYYY'),
         A10: moment(item.end_date).format('DD/MM/YYYY'),
         A11: item.start_totalizer.toString(),
@@ -315,9 +315,9 @@ const Reports: React.FC = () => {
             title="Periode"
             dataIndex="periode"
             key="periode"
-            render={(v) => {
-              return moment(v).format('MMM YYYY');
-            }}
+            // render={(v) => {
+            //   return moment(v).format('MMM YYYY');
+            // }}
           />
           <Column
             title="Start Date"
