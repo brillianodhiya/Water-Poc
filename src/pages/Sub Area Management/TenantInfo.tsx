@@ -610,7 +610,16 @@ const TenantInfo: React.FC = () => {
               />
               <Column
                 width={200}
-                title="Mode / Brand"
+                title="Meter Id"
+                dataIndex="meter_id"
+                key="meter_id"
+                {...getColumnSearchProps('meter_id')}
+
+                // sorter={(a: any, b: any) => a.devEui.length - b.devEui.length}
+              />
+              <Column
+                width={200}
+                title="Model / Brand"
                 dataIndex="model"
                 key="model"
                 sorter={(a: any, b: any) => a.model.length - b.model.length}

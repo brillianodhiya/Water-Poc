@@ -308,6 +308,15 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
 
           // sorter={(a: any, b: any) => a.devEui.length - b.devEui.length}
         />
+        <Column
+          width={200}
+          title="Meter Id"
+          dataIndex="meter_id"
+          key="meter_id"
+          {...getColumnSearchProps('meter_id')}
+
+          // sorter={(a: any, b: any) => a.devEui.length - b.devEui.length}
+        />
         {/* <Column
           width={200}
           title="Mode / Brand"
