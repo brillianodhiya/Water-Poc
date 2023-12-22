@@ -4,6 +4,7 @@ import { FullBatteryIcon, LowBatteryIcon, MediumBatteryIcon } from '@/components
 import { ModalViewDetailNode } from '@/components/ModalCustom/ModalViewDetailDevice';
 import { ModalViewLog } from '@/components/ModalCustom/ModalViewLog';
 import { getDevice, getListDownlink } from '@/services/nebula/device';
+import { ApiSetUnsignedInstallation } from '@/services/nebula/nodeList';
 import { getTenantInfo } from '@/services/nebula/tenant';
 import {
   ArrowLeftOutlined,
@@ -13,6 +14,7 @@ import {
   DashboardOutlined,
   DeleteOutlined,
   EditOutlined,
+  ExclamationCircleOutlined,
   EyeOutlined,
   MailOutlined,
   MoreOutlined,
@@ -42,6 +44,7 @@ import {
   Table,
   Tag,
   Typography,
+  Modal,
 } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/lib/table/interface';
@@ -271,6 +274,33 @@ const TenantInfo: React.FC = () => {
       ),
   });
 
+  const handleUnsigned = (obj: any) => {
+    Modal.confirm({
+      title: 'Do you Want to unsign these node?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Device Eui: ' + obj.devEui,
+      onOk: async () => {
+        // console.log('OK');
+        setLoading(true);
+        const d = await ApiSetUnsignedInstallation({
+          devEui: obj.devEui,
+          node_id: obj.id,
+        });
+        setLoading(false);
+        if (!d.error) {
+          Modal.success({
+            content: 'Success unsigned node ' + obj.devEui,
+            onOk: () => {
+              getData();
+            },
+          });
+        }
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   // console.log(state, 'STATE');
 
   return (
@@ -829,7 +859,8 @@ const TenantInfo: React.FC = () => {
                           <Menu.Item
                             key="3"
                             onClick={() => {
-                              history.push(`/device/${record.id}/delete`);
+                              // history.push(`/device/${record.id}/delete`);
+                              handleUnsigned(record);
                             }}
                             style={{ color: 'red' }}
                           >

@@ -545,9 +545,7 @@ export const ApiSetUnsignedInstallation = async (values: {
   node_id: number | string;
 }) => {
   try {
-    const { data } = await api.post<APINebula.PostResponse>(
-      `/remove/node/installation/${values.node_id}/${values.devEui}`,
-    );
+    const { data } = await api.put<APINebula.PostResponse>(`/device/unsigned/` + values.node_id);
 
     return {
       ...data,

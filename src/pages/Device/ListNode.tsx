@@ -3,12 +3,14 @@ import { FullBatteryIcon, LowBatteryIcon, MediumBatteryIcon } from '@/components
 import { ModalViewDetailNode } from '@/components/ModalCustom/ModalViewDetailDevice';
 import { ModalViewLog } from '@/components/ModalCustom/ModalViewLog';
 import { getDevice, getListDownlink } from '@/services/nebula/device';
+import { ApiSetUnsignedInstallation } from '@/services/nebula/nodeList';
 import { createFromIconfontCN } from '@ant-design/icons';
 import {
   ClockCircleOutlined,
   DashboardOutlined,
   DeleteOutlined,
   EditOutlined,
+  ExclamationCircleOutlined,
   EyeOutlined,
   MoreOutlined,
   SearchOutlined,
@@ -16,7 +18,7 @@ import {
 import { PageContainer } from '@ant-design/pro-components';
 import { history } from '@umijs/max';
 import type { InputRef } from 'antd';
-import { Button, Dropdown, Input, Menu, Space, Table, Tag, Typography } from 'antd';
+import { Button, Dropdown, Modal, Input, Menu, Space, Table, Tag, Typography } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/lib/table/interface';
 import moment from 'moment';
@@ -202,6 +204,33 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
       ),
   });
 
+  const handleUnsigned = (obj: any) => {
+    Modal.confirm({
+      title: 'Do you Want to unsign these node?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Device Eui: ' + obj.devEui,
+      onOk: async () => {
+        // console.log('OK');
+        setLoading(true);
+        const d = await ApiSetUnsignedInstallation({
+          devEui: obj.devEui,
+          node_id: obj.id,
+        });
+        setLoading(false);
+        if (!d.error) {
+          Modal.success({
+            content: 'Success unsigned node ' + obj.devEui,
+            onOk: () => {
+              getData();
+            },
+          });
+        }
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   // console.log(listDownlink, 'list downlink');
 
   return (
@@ -530,7 +559,8 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
                     <Menu.Item
                       key="3"
                       onClick={() => {
-                        history.push(`/device/${record.id}/delete`);
+                        // history.push(`/device/${record.id}/delete`);
+                        handleUnsigned(record);
                       }}
                       style={{ color: 'red' }}
                     >
