@@ -13,8 +13,7 @@ const api = axios.create({
   // .. where we make our configurations
   // baseURL: 'http://103.65.236.88:3006/api',
   // baseURL: 'https://bita-api.weiots.io/',
-  // baseURL: 'https://aat-api.weiots.io/',
-  baseURL: 'http://127.0.0.1:3005/',
+  baseURL: 'https://aat-api.weiots.io/',
   // adapter: cache.adapter,
 
   // baseURL: LOCAL_URL
