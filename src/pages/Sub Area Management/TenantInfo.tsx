@@ -292,6 +292,7 @@ const TenantInfo: React.FC = () => {
             content: 'Success unsigned node ' + obj.devEui,
             onOk: () => {
               getData();
+              getDataDevice();
             },
           });
         }
