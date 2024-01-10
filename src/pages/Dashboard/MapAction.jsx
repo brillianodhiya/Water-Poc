@@ -24,6 +24,7 @@ import { FullBatteryIcon, LowBatteryIcon, MediumBatteryIcon } from '@/components
 import { GatewayBigIcon } from '@/components/Icons/GatewayIcon';
 import { CloseOutlined } from '@ant-design/icons/lib/icons';
 import moment from 'moment';
+import MarkerClusterer from '@react-google-maps/marker-clusterer';
 
 function CalculateCenter(locations) {
   if (locations.length === 0) return { lat: 0, lng: 0 };
@@ -370,24 +371,13 @@ export const MapAction = ({ devices = [], getDataCountMap = () => {}, loadingGtL
   );
 };
 
-function Map({
-  gateway = [],
-  listrik = [],
-  devices = [],
-  // setDataModal,
-  // setModalOpen,
-  // setDimming,
-  // setValve,
-  // setIdLampu,
-  // setModalView,
-  // setDetailModal,
-}) {
-  // console.log(gateway, listrik, 'DEVICE');
-  // const center = useMemo(() => {
-  //   return { lat: -6.2, lng: 106.816666 };
-  // }, []);
+function Map({ gateway = [], listrik = [], devices = [] }) {
   const [center, setCenter] = React.useState({ lat: -6.1636608, lng: 106.7286528 });
-  // const [selected, setSelected] = useState(null);
+  const [tenantName, setTenantName] = React.useState(undefined);
+  const [contentPopOver, setContentPopOver] = React.useState(<div>test</div>);
+  const [colorPopOver, setColorPopOver] = React.useState('blue');
+  const [visible, setVisible] = React.useState(false);
+
   const [mapref, setMapRef] = React.useState(null);
   const [infoMarkerId, setInfoMarkerId] = React.useState(null);
   const handleOnLoad = (map) => {
@@ -397,14 +387,8 @@ function Map({
   React.useEffect(() => {
     if (devices.length > 0) {
       if (mapref) {
-        // if (devices.length === 1) {
-        //   mapref.setZoom(18);
-        // } else {
-        //   mapref.setZoom(14);
-        // }
-
         const w = CalculateCenter(devices);
-        // console.log(w, 'WW');
+
         setTimeout(() => {
           setCenter({
             lat: devices[0].latitude,
@@ -446,6 +430,8 @@ function Map({
         ],
       }}
     >
+      {/* <MarkerClusterer options={clusterOptions}> */}
+      {/* {renderClusterer} */}
       {devices.map((v) => {
         let icon = '/pin_blue.svg';
         let color = '#FAAD14';
@@ -463,12 +449,6 @@ function Map({
           icon = `/pin_${v.title}_blue.svg`;
           color = '#52C41A';
         }
-        // });
-        // if (v.status == 'close') {
-        //   icon = '/LampuRed.svg';
-        // } else if (v.is_dimming) {
-        //   icon = '/LampuGreen.svg';
-        // }
 
         const content = (
           <div>
@@ -482,7 +462,13 @@ function Map({
                 <Typography style={{ fontSize: '14px', color: 'gray' }}>Tenant Name</Typography>
                 <Typography style={{ fontSize: '18px' }}>{v.Tenant}</Typography>
               </div>
-              <Button type="text" onClick={() => setInfoMarkerId(null)}>
+              <Button
+                type="text"
+                onClick={() => {
+                  setInfoMarkerId(null);
+                  setVisible(false);
+                }}
+              >
                 <CloseOutlined />
               </Button>
             </div>
@@ -491,8 +477,6 @@ function Map({
                 marginTop: '14px',
               }}
             >
-              {/* {v.iot_nodes?.map((v2) => {
-                return ( */}
               <div
                 key={v.devEui}
                 style={{
@@ -501,36 +485,7 @@ function Map({
               >
                 <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>{v.title}</Typography>
                 <Typography style={{ fontSize: '14px', color: 'gray' }}>{v?.devEui}</Typography>
-                {/* <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: '8px',
-                  }}
-                >
-                  <Typography style={{ fontSize: '14px', color: 'gray' }}>Battery Level</Typography>
-                  <Typography style={{ fontSize: '14px' }}>
-                    <>
-                      {v.value > 20 && v.value <= 50 ? (
-                        <Space size={'small'}>
-                          <MediumBatteryIcon />
-                          <span>{v.value ?? '0'}%</span>
-                        </Space>
-                      ) : v.value <= 20 ? (
-                        <Space size={'small'}>
-                          <LowBatteryIcon />
-                          <span>{v.value ?? '0'}%</span>
-                        </Space>
-                      ) : v.value > 50 ? (
-                        <Space size={'small'}>
-                          <FullBatteryIcon />
-                          <span>{v.value ?? '0'}%</span>
-                        </Space>
-                      ) : null}
-                    </>
-                  </Typography>
-                </div> */}
+
                 {v.log.map((v3) => {
                   if (v3.type == 'battery') {
                     return (
@@ -587,8 +542,6 @@ function Map({
                   }
                 })}
               </div>
-              {/* ); */}
-              {/* })} */}
             </div>
           </div>
         );
@@ -607,8 +560,19 @@ function Map({
                 });
                 if (infoMarkerId) {
                   setInfoMarkerId(null);
+                  setVisible(false);
                 } else {
                   setInfoMarkerId(v.device_id);
+                  setTenantName(v.Tenant);
+                  setContentPopOver(content);
+                  setVisible(true);
+                  if (v.icon == 'warning') {
+                    setColorPopOver('#FAAD14');
+                  } else if (v.icon == 'danger') {
+                    setColorPopOver('#FF4D4F');
+                  } else {
+                    setColorPopOver('#52C41A');
+                  }
                 }
               }}
               position={{
@@ -616,7 +580,29 @@ function Map({
                 lng: v.longitude,
               }}
             />,
-            <>
+          ];
+        }
+      })}
+      <InfoBox
+        options={{ closeBoxURL: ``, enableEventPropagation: true }}
+        position={{
+          lat: center.latitude,
+          lng: center.longitude,
+        }}
+      >
+        <Popover
+          placement="top"
+          key={tenantName}
+          content={contentPopOver}
+          // trigger={['click']}
+          open={visible}
+          overlayInnerStyle={{
+            borderTop: `2px solid ${colorPopOver}`,
+            borderRadius: 8,
+          }}
+        />
+      </InfoBox>
+      {/* <>
               <InfoBox
                 options={{ closeBoxURL: ``, enableEventPropagation: true }}
                 position={{
@@ -635,13 +621,9 @@ function Map({
                     borderRadius: 8,
                   }}
                 />
-
-                {/* </Popover> */}
               </InfoBox>
-            </>,
-          ];
-        }
-      })}
+            </> */}
+      {/* </MarkerClusterer> */}
     </GoogleMap>
   );
 }
