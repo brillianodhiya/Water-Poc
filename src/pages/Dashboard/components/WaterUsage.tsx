@@ -21,7 +21,7 @@ type ViewLogTypes = {
 export const WaterUsage: FunctionComponent<ViewLogTypes> = ({ loading, data }) => {
   return (
     <Card
-      title="Tenant Consumption"
+      title="Today Tenant Consumption"
       style={{
         boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
         borderRadius: '8px',
