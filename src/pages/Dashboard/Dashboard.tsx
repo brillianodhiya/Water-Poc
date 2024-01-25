@@ -116,6 +116,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
   const [loadingNotif, setLoadingNotif] = React.useState(false);
   const [dataNotif, setDataNotif] = React.useState<any[]>([]);
   const [tab, setTab] = React.useState('dashboard');
+  const [lastRefresh, setLastRefresh] = React.useState(moment());
 
   // const getDataNotif = async () => {
   //   setLoadingNotif(true);
@@ -138,6 +139,8 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     // console.log(data, 'data map');
     setLoading(false);
     if (!data.error) {
+      setLastRefresh(moment());
+
       // setDataMapCount(data.data);
       // console.log(data.data, 'data map');
       // data.data.device_location = [];
@@ -145,10 +148,12 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     }
   };
 
-  React.useEffect(() => {
-    getDataCountMap();
-    // getDataNotif();
-  }, []);
+  useQuery({
+    queryKey: ['datacount'],
+    queryFn: () => getDataCountMap(),
+    refetchInterval: 900000,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <PageContainer
@@ -230,7 +235,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
             }}
           >
             {/* Thu Dec 22 2022 03:35:02 */}
-            {moment().format('dddd MMM DD YYYY HH:mm:ss')}
+            {lastRefresh.format('MMMM, DD YYYY HH:mm:ss')}
           </Typography>
         </div>
       </div>
