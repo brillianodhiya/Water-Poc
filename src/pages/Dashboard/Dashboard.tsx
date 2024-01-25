@@ -20,6 +20,7 @@ import { WaterUsage } from './components/WaterUsage';
 import { WaterPressure } from './components/WaterPressure';
 import { WaterPressureVacuum } from './components/WaterVacuum';
 import { WaterLosses } from './components/WaterLosses';
+import AlertComponent from './Alert';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -745,6 +746,9 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                   data={dataAlert.alert_system}
                 />
               </Col>
+              <Col xxl={0} xl={24} md={24} sm={24} xs={24}>
+                <AlertComponent />
+              </Col>
               {/* <Col span={24}>
                 <WaterPressure loading={loading} dataWaterPressure={dataAlert.water_pressure} />
               </Col>
@@ -760,7 +764,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
               </Col> */}
             </Row>
           </Col>
-          <Col span={24}>
+          <Col xxl={17} xl={17} md={24} sm={24} xs={24}>
             <Card
               style={{
                 borderRadius: 8,
@@ -854,6 +858,9 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                 </Col>
               </Row>
             </Card>
+          </Col>
+          <Col xxl={7} xl={0} md={0} sm={0} xs={0}>
+            <AlertComponent />
           </Col>
           {/* <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
             <ProduksiAir
