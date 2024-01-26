@@ -21,6 +21,7 @@ import { WaterPressure } from './components/WaterPressure';
 import { WaterPressureVacuum } from './components/WaterVacuum';
 import { WaterLosses } from './components/WaterLosses';
 import AlertComponent from './Alert';
+import { useQuery } from 'react-query';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
