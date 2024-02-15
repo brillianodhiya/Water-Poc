@@ -101,22 +101,24 @@ const Device: React.FC = () => {
           }}
         >
           <Typography.Title level={4}>Device Management</Typography.Title>
-          <Button
-            style={
-              {
-                // display: params.sub == 'list' || params.type == 'Gateway' ? '' : 'none'
+          {params.id ? (
+            <Button
+              style={
+                {
+                  // display: params.sub == 'list' || params.type == 'Gateway' ? '' : 'none'
+                }
               }
-            }
-            onClick={() => {
-              // if (segment == 'Gateway') {
-              // setModalAddGateway(true);
-              // } else {
-              history.push('/device/create');
-              // }
-            }}
-          >
-            <PlusOutlined /> Add Device
-          </Button>
+              onClick={() => {
+                // if (segment == 'Gateway') {
+                // setModalAddGateway(true);
+                // } else {
+                history.push('/device/create');
+                // }
+              }}
+            >
+              <PlusOutlined /> Add Device
+            </Button>
+          ) : null}
         </Col>
         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
           <Segmented

@@ -75,12 +75,12 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
   const [modalInterval, setModalInterval] = React.useState(false);
   const [modalViewDetail, setModalViewDetail] = React.useState(false);
 
+  console.log(queryParsed, 'query parsed');
+
   const getData = async () => {
     setLoading(true);
     const data = await getDevice({
-      // params: {
-      //   type: queryParsed.node_type,
-      // },
+      params: queryParsed,
     });
     setLoading(false);
     if (!data.error) {
@@ -345,6 +345,13 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
           {...getColumnSearchProps('meter_id')}
 
           // sorter={(a: any, b: any) => a.devEui.length - b.devEui.length}
+        />
+        <Column
+          width={200}
+          title="Totalizer"
+          dataIndex="totalizer"
+          key="totalizer"
+          {...getColumnSearchProps('totalizer')}
         />
         {/* <Column
           width={200}

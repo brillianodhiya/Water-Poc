@@ -25,6 +25,7 @@ import { GatewayBigIcon } from '@/components/Icons/GatewayIcon';
 import { CloseOutlined } from '@ant-design/icons/lib/icons';
 import moment from 'moment';
 import MarkerClusterer from '@react-google-maps/marker-clusterer';
+import { history } from '@umijs/max';
 
 function CalculateCenter(locations) {
   if (locations.length === 0) return { lat: 0, lng: 0 };
@@ -484,7 +485,14 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
                 }}
               >
                 <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>{v.title}</Typography>
-                <Typography style={{ fontSize: '14px', color: 'gray' }}>{v?.devEui}</Typography>
+                <Typography
+                  style={{ fontSize: '14px', color: 'blue', cursor: 'pointer' }}
+                  onClick={() => {
+                    window.open(`/device?id=${v.device_id}`);
+                  }}
+                >
+                  {v?.devEui}
+                </Typography>
 
                 {v.log.map((v3) => {
                   if (v3.type == 'battery') {
@@ -514,6 +522,34 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
                           ) : v3.value > 50 ? (
                             <Tag style={{ marginRight: '-4px' }} color="green">
                               {converNumberSmNotFixed(v3.value)} {v3.unit}
+                            </Tag>
+                          ) : null}
+                        </div>
+                      </div>
+                    );
+                  } else if (v3.type == 'status') {
+                    return (
+                      <div
+                        key={v3.name}
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginTop: '8px',
+                          display: 'flex',
+                          gap: '20px',
+                        }}
+                      >
+                        <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                          {v3.name}
+                        </Typography>
+                        <div>
+                          {v3.value == 'ONLINE' ? (
+                            <Tag style={{ marginRight: '-4px' }} color="green">
+                              {v3.value}
+                            </Tag>
+                          ) : v3.value == 'OFFLINE' ? (
+                            <Tag style={{ marginRight: '-4px' }} color="red">
+                              {v3.value}
                             </Tag>
                           ) : null}
                         </div>

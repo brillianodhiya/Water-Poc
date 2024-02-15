@@ -12,15 +12,13 @@ import { history } from '@umijs/max';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { MapAction } from './MapAction';
-import { ProduksiAir } from './components/ProduksiAir';
-import { KualitasAir } from './components/KualitasAir';
+
 import { Grafik } from './Grafik';
 import moment from 'moment';
 import { WaterUsage } from './components/WaterUsage';
-import { WaterPressure } from './components/WaterPressure';
-import { WaterPressureVacuum } from './components/WaterVacuum';
-import { WaterLosses } from './components/WaterLosses';
+
 import AlertComponent from './Alert';
+import { useQuery } from 'react-query';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
