@@ -75,6 +75,7 @@ const AlertComponent = () => {
               display: 'flex',
               flexDirection: 'column',
               gap: '4px',
+              flexWrap: 'wrap',
             }}
           >
             {Object.keys(data?.data).map((val, idx) => {
@@ -86,6 +87,8 @@ const AlertComponent = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    flexWrap: 'wrap',
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
                   }}
                 >
                   <Space>
