@@ -522,6 +522,17 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
                       <InfoCircleOutlined />
                       {'  '}Detail Device
                     </Menu.Item> */}
+                    <Menu.Item
+                      key="edit-device"
+                      onClick={() => {
+                        history.push(
+                          `/device/edit?id=${record.id}&area_id=${record.area_id}&tenant_id=${record.tenant_id}`,
+                        );
+                      }}
+                    >
+                      <EditOutlined />
+                      {'  '}Edit Device
+                    </Menu.Item>
                     {listDownlink.map((v: any) => {
                       let icon = <EditOutlined />;
                       let funct = () => {

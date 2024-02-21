@@ -576,3 +576,55 @@ export async function getDetailDevice(devEui?: string) {
     }
   }
 }
+
+export const ApiEditNodeInstallationB = async (
+  values: {
+    model: string;
+    description: string;
+    latitude: string;
+    longitude: string;
+    meter_id: string;
+  },
+  id?: number,
+) => {
+  try {
+    const { data } = await api.patch<APIBadiklat.PostResponse>('/device/edit/' + id, {
+      model: values.model,
+      description: values.description,
+      latitude: values.latitude,
+      longitude: values.longitude,
+      meter_id: values.meter_id,
+    });
+
+    return {
+      ...data,
+      status: 'ok',
+      error: false,
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log('error message: ', error.message);
+      // return error.message;
+      const d = error.response as postErrorTypes;
+      if (d.data.message) {
+        message.error(d.data.message);
+      } else {
+        message.error(error.message);
+      }
+
+      return {
+        responseCode: 400,
+        message: error.response?.data?.message || error.message,
+        error: true,
+      };
+    } else {
+      console.log('unexpected error: ', error);
+      message.error('An unexpected error occured');
+      return {
+        responseCode: 400,
+        message: 'An unexpected error occured',
+        error: true,
+      };
+    }
+  }
+};

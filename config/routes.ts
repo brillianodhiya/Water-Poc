@@ -69,6 +69,12 @@ export default [
     component: './Device/Device',
   },
   {
+    path: '/device/edit',
+    // name: 'Device Management',
+    // icon: 'smile',
+    component: './Device/EditDevice',
+  },
+  {
     path: '/gateway',
     name: 'Gateway',
     // icon: 'smile',
