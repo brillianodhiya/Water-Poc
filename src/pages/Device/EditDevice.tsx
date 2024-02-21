@@ -207,7 +207,7 @@ const EditDevice: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BITA | Device</title>
+        <title>AAT | Device</title>
         <link rel="icon" href="/logo2.png" type="image/x-icon" />
       </Helmet>
       <Spin spinning={loading}>
