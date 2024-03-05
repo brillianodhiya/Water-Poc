@@ -75,8 +75,6 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
   const [modalInterval, setModalInterval] = React.useState(false);
   const [modalViewDetail, setModalViewDetail] = React.useState(false);
 
-  console.log(queryParsed, 'query parsed');
-
   const getData = async () => {
     setLoading(true);
     const data = await getDevice({

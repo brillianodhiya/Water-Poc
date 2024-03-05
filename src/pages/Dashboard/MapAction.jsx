@@ -402,7 +402,7 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
 
   return (
     <GoogleMap
-      zoom={12}
+      zoom={18}
       center={center}
       mapContainerClassName="map-container"
       onDragStart={() => setInfoMarkerId(null)}
@@ -436,10 +436,6 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
       {devices.map((v) => {
         let icon = '/pin_blue.svg';
         let color = '#FAAD14';
-
-        // console.log(v.title, 'TITLE');
-
-        // v.iot_nodes?.map((w) => {
         if (v.icon == 'warning') {
           icon = `/map_${v.title}_yellow.svg`;
           color = '#FAAD14';
@@ -449,6 +445,17 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
         } else {
           icon = `/pin_${v.title}_blue.svg`;
           color = '#52C41A';
+        }
+        // console.log(v.title, 'TITLE');
+        if (v.mac_id) {
+          // jika status nya true maka pakai icon pin_gateway_online.svg jika false maka pakai icon pin_gateway_offline.svg
+          if (v.status) {
+            icon = `/pin_gateway_online.svg`;
+            color = '#52C41A';
+          } else {
+            icon = `/pin_gateway_offline.svg`;
+            color = '#FF4D4F';
+          }
         }
 
         const content = (
@@ -460,8 +467,27 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
               }}
             >
               <div>
-                <Typography style={{ fontSize: '14px', color: 'gray' }}>Tenant Name</Typography>
-                <Typography style={{ fontSize: '18px' }}>{v.Tenant}</Typography>
+                <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                  {v.mac_id ? 'Gateway Name' : 'Tenant Name'}
+                </Typography>
+                <Typography
+                  style={
+                    v.mac_id
+                      ? {
+                          fontSize: '18px',
+                          color: 'blue',
+                          cursor: 'pointer',
+                        }
+                      : { fontSize: '18px' }
+                  }
+                  onClick={() => {
+                    if (v.mac_id) {
+                      window.open(`/gateway?id=${v.id}`);
+                    }
+                  }}
+                >
+                  {v.mac_id ? v.name : v.Tenant}
+                </Typography>
               </div>
               <Button
                 type="text"
@@ -473,118 +499,320 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
                 <CloseOutlined />
               </Button>
             </div>
-            <div
-              style={{
-                marginTop: '14px',
-              }}
-            >
+            {!v.mac_id ? (
               <div
-                key={v.devEui}
                 style={{
-                  marginTop: '24px',
+                  marginTop: '14px',
                 }}
               >
-                <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>{v.title}</Typography>
-                <Typography
-                  style={{ fontSize: '14px', color: 'blue', cursor: 'pointer' }}
-                  onClick={() => {
-                    window.open(`/device?id=${v.device_id}`);
+                <div
+                  key={v.devEui}
+                  style={{
+                    marginTop: '24px',
                   }}
                 >
-                  {v?.devEui}
-                </Typography>
+                  <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                    {v.title}
+                  </Typography>
+                  <Typography
+                    style={{ fontSize: '14px', color: 'blue', cursor: 'pointer' }}
+                    onClick={() => {
+                      window.open(`/device?id=${v.device_id}`);
+                    }}
+                  >
+                    {v?.devEui}
+                  </Typography>
 
-                {v.log.map((v3) => {
-                  if (v3.type == 'battery') {
-                    return (
-                      <div
-                        key={v3.name}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '8px',
-                          display: 'flex',
-                          gap: '20px',
-                        }}
-                      >
-                        <Typography style={{ fontSize: '14px', color: 'gray' }}>
-                          {v3.name}
-                        </Typography>
-                        <div>
-                          {v3.value > 20 && v3.value <= 50 ? (
-                            <Tag style={{ marginRight: '-4px' }} color="#FAAD14">
-                              {converNumberSmNotFixed(v3.value)} {v3.unit}
-                            </Tag>
-                          ) : v3.value <= 20 ? (
-                            <Tag style={{ marginRight: '-4px' }} color="red">
-                              {converNumberSmNotFixed(v3.value)} {v3.unit}
-                            </Tag>
-                          ) : v3.value > 50 ? (
-                            <Tag style={{ marginRight: '-4px' }} color="green">
-                              {converNumberSmNotFixed(v3.value)} {v3.unit}
-                            </Tag>
-                          ) : null}
-                        </div>
-                      </div>
-                    );
-                  } else if (v3.type == 'status') {
-                    return (
-                      <div
-                        key={v3.name}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '8px',
-                          display: 'flex',
-                          gap: '20px',
-                        }}
-                      >
-                        <Typography style={{ fontSize: '14px', color: 'gray' }}>
-                          {v3.name}
-                        </Typography>
-                        <div>
-                          {v3.value == 'ONLINE' ? (
-                            <Tag style={{ marginRight: '-4px' }} color="green">
-                              {v3.value}
-                            </Tag>
-                          ) : v3.value == 'OFFLINE' ? (
-                            <Tag style={{ marginRight: '-4px' }} color="red">
-                              {v3.value}
-                            </Tag>
-                          ) : null}
-                        </div>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div
-                        key={v3.name}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '8px',
-                          display: 'flex',
-                          gap: '20px',
-                        }}
-                      >
-                        <Typography style={{ fontSize: '14px', color: 'gray' }}>
-                          {v3.name}
-                        </Typography>
-                        <div>
-                          {v3.value} {v3.unit}
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
+                  {v.log
+                    ? v.log.map((v3) => {
+                        if (v3.type == 'battery') {
+                          return (
+                            <div
+                              key={v3.name}
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginTop: '8px',
+                                display: 'flex',
+                                gap: '20px',
+                              }}
+                            >
+                              <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                                {v3.name}
+                              </Typography>
+                              <div>
+                                {v3.value > 20 && v3.value <= 50 ? (
+                                  <Tag style={{ marginRight: '-4px' }} color="#FAAD14">
+                                    {converNumberSmNotFixed(v3.value)} {v3.unit}
+                                  </Tag>
+                                ) : v3.value <= 20 ? (
+                                  <Tag style={{ marginRight: '-4px' }} color="red">
+                                    {converNumberSmNotFixed(v3.value)} {v3.unit}
+                                  </Tag>
+                                ) : v3.value > 50 ? (
+                                  <Tag style={{ marginRight: '-4px' }} color="green">
+                                    {converNumberSmNotFixed(v3.value)} {v3.unit}
+                                  </Tag>
+                                ) : null}
+                              </div>
+                            </div>
+                          );
+                        } else if (v3.type == 'status') {
+                          return (
+                            <div
+                              key={v3.name}
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginTop: '8px',
+                                display: 'flex',
+                                gap: '20px',
+                              }}
+                            >
+                              <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                                {v3.name}
+                              </Typography>
+                              <div>
+                                {v3.value == 'ONLINE' ? (
+                                  <Tag style={{ marginRight: '-4px' }} color="green">
+                                    {v3.value}
+                                  </Tag>
+                                ) : v3.value == 'OFFLINE' ? (
+                                  <Tag style={{ marginRight: '-4px' }} color="red">
+                                    {v3.value}
+                                  </Tag>
+                                ) : null}
+                              </div>
+                            </div>
+                          );
+                        } else if (v3.type == 'reason') {
+                          return (
+                            <div
+                              key={v3.name}
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
+                                marginTop: '8px',
+                                display: 'flex',
+                                gap: '20px',
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  gap: '4px',
+                                }}
+                              >
+                                {v3.value.map((v4) => {
+                                  return (
+                                    <Tag key={v4} color={'gray'}>
+                                      {v4}
+                                    </Tag>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          );
+                        } else if (v3.type == 'battery_condition') {
+                          return (
+                            <div
+                              key={v3.name}
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginTop: '8px',
+                                display: 'flex',
+                                gap: '20px',
+                              }}
+                            >
+                              <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                                {v3.name}
+                              </Typography>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  gap: '4px',
+                                }}
+                              >
+                                <Space align="center" size="small">
+                                  {v3.color == 'red' ? (
+                                    <LowBatteryIcon />
+                                  ) : v3.color == 'yellow' ? (
+                                    <MediumBatteryIcon />
+                                  ) : v3.color == 'green' ? (
+                                    <FullBatteryIcon />
+                                  ) : null}
+                                  {v3.value.map((v4) => {
+                                    return <Tag key={v4}>{v4}</Tag>;
+                                  })}
+                                </Space>
+                              </div>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              key={v3.name}
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginTop: '8px',
+                                display: 'flex',
+                                gap: '20px',
+                              }}
+                            >
+                              <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                                {v3.name}
+                              </Typography>
+                              <div>
+                                {v3.value} {v3.unit}
+                              </div>
+                            </div>
+                          );
+                        }
+                      })
+                    : null}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                style={{
+                  marginTop: '14px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                {/* <Typography style={{ fontSize: '14px' }}>
+                    <span
+                      style={{
+                        color: 'gray',
+                      }}
+                    >
+                      Installation Date:
+                    </span>{' '}
+                    <b> {moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')}</b>
+                  </Typography>
+                  <Typography style={{ fontSize: '14px' }}>
+                    <span
+                      style={{
+                        color: 'gray',
+                      }}
+                    >
+                      Last Update:
+                    </span>{' '}
+                    <b> {moment(v.lastUpdate).format('YYYY-MM-DD HH:mm:ss')}</b>
+                  </Typography>
+                  <Typography style={{ fontSize: '14px' }}>
+                    <span
+                      style={{
+                        color: 'gray',
+                      }}
+                    >
+                      Mac ID:
+                    </span>{' '}
+                    <b>{v?.mac_id}</b>
+                  </Typography>
+                <Typography style={{ fontSize: '14px' }}>
+                  <span
+                    style={{
+                      color: 'gray',
+                    }}
+                  >
+                    Status:
+                  </span>
+                  <Tag color={color}>{v.status ? 'Online' : 'Offline'}</Tag>
+                </Typography>
+                <Typography style={{ fontSize: '14px' }}>
+                  <span
+                    style={{
+                      color: 'gray',
+                    }}
+                  >
+                    Description:
+                  </span>
+                  <b>{v?.description}</b>
+                </Typography>
+                */}
+                <div
+                  key={v.mac_id}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '8px',
+                    display: 'flex',
+                    gap: '20px',
+                  }}
+                >
+                  <Typography style={{ fontSize: '14px', color: 'gray' }}>
+                    Installation Date:
+                  </Typography>
+                  <div>{moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+                </div>
+                <div
+                  key={v.mac_id}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '8px',
+                    display: 'flex',
+                    gap: '20px',
+                  }}
+                >
+                  <Typography style={{ fontSize: '14px', color: 'gray' }}>Last Update:</Typography>
+                  <div>{moment(v.lastUpdate).format('YYYY-MM-DD HH:mm:ss')}</div>
+                </div>
+                <div
+                  key={v.mac_id}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '8px',
+                    display: 'flex',
+                    gap: '20px',
+                  }}
+                >
+                  <Typography style={{ fontSize: '14px', color: 'gray' }}>Mac ID:</Typography>
+                  <div>{v?.mac_id}</div>
+                </div>
+                <div
+                  key={v.mac_id}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '8px',
+                    display: 'flex',
+                    gap: '20px',
+                  }}
+                >
+                  <Typography style={{ fontSize: '14px', color: 'gray' }}>Status:</Typography>
+                  <div>
+                    <Tag color={color}>{v.status ? 'Online' : 'Offline'}</Tag>
+                  </div>
+                </div>
+                <div
+                  key={v.mac_id}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: '8px',
+                    display: 'flex',
+                    gap: '20px',
+                  }}
+                >
+                  <Typography style={{ fontSize: '14px', color: 'gray' }}>Description:</Typography>
+                  <div>{v?.description}</div>
+                </div>
+              </div>
+            )}
           </div>
         );
         if (v.latitude && v.longitude) {
           return [
             <Marker
-              key={v.title}
+              key={v.title || v.mac_id}
               icon={{
                 url: icon,
                 scaledSize: { width: 32, height: 32 },
@@ -598,7 +826,7 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
                   setInfoMarkerId(null);
                   setVisible(false);
                 } else {
-                  setInfoMarkerId(v.device_id);
+                  setInfoMarkerId(v.device_id || v.id);
                   setTenantName(v.Tenant);
                   setContentPopOver(content);
                   setVisible(true);

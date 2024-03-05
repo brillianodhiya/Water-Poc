@@ -4,7 +4,7 @@ import { GatewayIcon2 } from '@/components/Icons/GatewayIcon2';
 import { OfflineIcon } from '@/components/Icons/OfflineIcon';
 import { WifiOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
-import { Avatar, Card, Col, Row, Space, Spin, Tabs, Tag, Typography } from 'antd';
+import { Avatar, Card, Checkbox, Col, Row, Space, Spin, Tabs, Tag, Typography } from 'antd';
 // import { List } from 'antd/lib/form/Form';
 import { ModalViewDetailNotification } from '@/components/ModalCustom/ModalViewNotification';
 import { getListAlert } from '@/services/badiklat/dashboard';
@@ -32,6 +32,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
 
   const [loading, setLoading] = React.useState(false);
   const [dataAlert, setDataAlert] = React.useState<{
+    gateway_location: any[];
     device_location: any[];
     alert_system: {
       icon_pemakaian_air: string;
@@ -79,6 +80,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     };
     water_pressure: any[];
   }>({
+    gateway_location: [],
     device_location: [],
     alert_system: {
       pemakaian_air: '180.074',
@@ -115,6 +117,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
   const [dataNotif, setDataNotif] = React.useState<any[]>([]);
   const [tab, setTab] = React.useState('dashboard');
   const [lastRefresh, setLastRefresh] = React.useState(moment());
+  const [checkbox, setCheckbox] = React.useState(['device', 'gateway']);
 
   // const getDataNotif = async () => {
   //   setLoadingNotif(true);
@@ -152,6 +155,24 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
     refetchInterval: 900000,
     refetchOnWindowFocus: false,
   });
+
+  const useDataDeviceAndGateway = () => {
+    // jika array checkbox berisi [device, gateway] maka buatkan array baru yang menggabungkan dataAlert.device_location dan dataAlert.gateway_location
+    // jika array checkbox berisi [device] maka buatkan array baru yang berisi dataAlert.device_location
+    // jika array checkbox berisi [gateway] maka buatkan array baru yang berisi dataAlert.gateway_location
+    // jika array checkbox berisi [] maka buatkan array baru yang berisi []
+    if (checkbox.includes('device') && checkbox.includes('gateway')) {
+      return dataAlert.device_location.concat(dataAlert.gateway_location);
+    } else if (checkbox.includes('device')) {
+      return dataAlert.device_location;
+    } else if (checkbox.includes('gateway')) {
+      return dataAlert.gateway_location;
+    } else {
+      return [];
+    }
+  };
+
+  const deviceAndGateway = useDataDeviceAndGateway();
 
   return (
     <PageContainer
@@ -767,7 +788,11 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
               </Col> */}
             </Row>
           </Col>
-          <Col xxl={17} xl={17} md={24} sm={24} xs={24}>
+
+          <Col xxl={7} xl={0} md={0} sm={0} xs={0}>
+            <AlertComponent />
+          </Col>
+          <Col xxl={24} xl={24} md={24} sm={24} xs={24}>
             <Card
               style={{
                 borderRadius: 8,
@@ -804,14 +829,33 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                           }}
                         />
                       </div> */}
-                    <Typography
-                      style={{
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                      }}
+                    <Checkbox.Group
+                      value={checkbox}
+                      onChange={(checked: any[]) => setCheckbox(checked)}
                     >
-                      Device
-                    </Typography>
+                      <Checkbox value={'device'}>
+                        {' '}
+                        <Typography
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          Devices
+                        </Typography>
+                      </Checkbox>
+                      <Checkbox value={'gateway'}>
+                        {' '}
+                        <Typography
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          Gateways
+                        </Typography>
+                      </Checkbox>
+                    </Checkbox.Group>
                   </Space>
                   {/* <Button
                       icon={
@@ -852,7 +896,7 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                   >
                     <MapAction
                       loadingGtLamp={false}
-                      devices={dataAlert.device_location}
+                      devices={deviceAndGateway}
                       // gateway={[]}
                       getDataCountMap={getDataCountMap}
                       // listrik={[]}
@@ -861,9 +905,6 @@ const Dashboard: React.FC<{ isFocused: boolean }> = ({}) => {
                 </Col>
               </Row>
             </Card>
-          </Col>
-          <Col xxl={7} xl={0} md={0} sm={0} xs={0}>
-            <AlertComponent />
           </Col>
           {/* <Col xxl={8} xl={8} md={8} sm={12} xs={24}>
             <ProduksiAir

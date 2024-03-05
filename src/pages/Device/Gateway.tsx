@@ -10,6 +10,7 @@ import React from 'react';
 import type { ColumnType } from 'antd/es/table';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import queryString from 'query-string';
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -35,13 +36,16 @@ const ListGateway: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocu
   const [searchText, setSearchText] = React.useState('');
   const [searchedColumn, setSearchedColumn] = React.useState('');
   const searchInput = React.useRef<InputRef>(null);
+  const queryParsed = queryString.parse(window.location.search);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [dataFull, setDataFull] = React.useState<any[]>([]);
 
   const getDataGateway = async () => {
     setLoading(true);
-    const data = await getGateway({});
+    const data = await getGateway({
+      params: queryParsed,
+    });
     // console.log(data, 'DATA');
     setLoading(false);
     if (!data.error) {
