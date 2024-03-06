@@ -450,7 +450,7 @@ function Map({ gateway = [], listrik = [], devices = [] }) {
         if (v.mac_id) {
           // jika status nya true maka pakai icon pin_gateway_online.svg jika false maka pakai icon pin_gateway_offline.svg
           if (v.status) {
-            icon = `/pin_gateway_online.svg`;
+            icon = `/pin_gateway_warning.svg`;
             color = '#52C41A';
           } else {
             icon = `/pin_gateway_offline.svg`;
