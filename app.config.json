@@ -1,0 +1,12 @@
+{
+  apps : [
+    {
+      name      : "fe-water-poc",
+      script    : "npx",
+      interpreter: "none",
+      args: "serve -l 5000 -s dist"
+    }
+  ]
+}
+  
+  
