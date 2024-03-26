@@ -4,7 +4,7 @@
       name      : "fe-water-poc",
       script    : "npx",
       interpreter: "none",
-      args: "serve -l 5000 -s dist"
+      args: "serve -l 5001 -s dist"
     }
   ]
 }
