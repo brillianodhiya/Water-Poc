@@ -134,12 +134,8 @@ const AddGateway: React.FC = () => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT IoT Platform | Gateway</title>
-        <link
-          rel="icon"
-          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
-          type="image/x-icon"
-        />
+        <title>IKI IoT Platform | Gateway</title>
+        <link rel="icon" href="/iki-logo-no-text.png" type="image/x-icon" />
       </Helmet>
       <Spin spinning={loading}>
         <Form form={form} name="add-area" onFinish={onFinish} layout="vertical">

@@ -129,12 +129,8 @@ const Login: React.FC = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT IoT Platform | Login</title>
-        <link
-          rel="icon"
-          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
-          type="image/x-icon"
-        />
+        <title>IKI IoT Platform | Login</title>
+        <link rel="icon" href="/iki-logo-no-text.png" type="image/x-icon" />
       </Helmet>
       <div className={styles.container}>
         <div className={styles.lang} data-lang>
@@ -142,7 +138,7 @@ const Login: React.FC = () => {
         </div>
         <div className={styles.content}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <img alt="logo" src="/logoaat.png" width={250} />
+            <img alt="logo" src="/iki-logo.png" width={250} />
           </div>
           <LoginForm
             // logo={<img alt="logo" src="/nebula.svg" />}

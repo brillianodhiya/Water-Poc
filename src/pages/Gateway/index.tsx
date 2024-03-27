@@ -17,19 +17,15 @@ const SettingsManagement: React.FC = () => {
   return (
     <PageContainer
       title="Gateway"
-      content="This is a gateway management system for AAT's IOT platform."
+      content="This is a gateway management system for IKI's IOT platform."
       style={{
         borderTop: '1px solid rgba(0, 0, 0, 0.06)',
       }}
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT IoT Platform | Gateway</title>
-        <link
-          rel="icon"
-          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
-          type="image/x-icon"
-        />
+        <title>IKI IoT Platform | Gateway</title>
+        <link rel="icon" href="/iki-logo-no-text.png" type="image/x-icon" />
       </Helmet>
       <Row gutter={[8, 8]}>
         <Col

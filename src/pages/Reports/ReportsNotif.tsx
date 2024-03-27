@@ -93,12 +93,8 @@ const ReportsNotif: React.FC = () => {
       >
         <Helmet>
           <meta charSet="utf-8" />
-          <title>AAT IoT Platform | Notification</title>
-          <link
-            rel="icon"
-            href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
-            type="image/x-icon"
-          />
+          <title>IKI IoT Platform | Notification</title>
+          <link rel="icon" href="/iki-logo-no-text.png" type="image/x-icon" />
         </Helmet>
         <Divider />
         <Card

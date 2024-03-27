@@ -241,12 +241,8 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT IoT Platform | Device</title>
-        <link
-          rel="icon"
-          href="https://aetratangerang.co.id/wp-content/uploads/2020/07/cropped-favicon-192x192.png"
-          type="image/x-icon"
-        />
+        <title>IKI IoT Platform | Device</title>
+        <link rel="icon" href="/iki-logo-no-text.png" type="image/x-icon" />
       </Helmet>
       <ModalViewLog
         device_id={dataModal.id}

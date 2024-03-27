@@ -167,7 +167,7 @@ const EditTenant: React.FC<Props> = ({}) => {
     >
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AAT IoT Platform | User Management</title>
+        <title>IKI IoT Platform | User Management</title>
         <link rel="icon" href="/Sinar-mas.png" type="image/x-icon" />
       </Helmet>
       <Divider style={{ paddingTop: 0, marginTop: 0 }} />

@@ -15,9 +15,9 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'AAT',
+  title: 'IKI',
   pwa: false,
-  logo: '/logoaat.png',
+  logo: '/iki-logo-no-text.png',
   iconfontUrl: '',
   splitMenus: true,
 };
