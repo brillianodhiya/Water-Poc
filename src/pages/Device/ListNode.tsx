@@ -18,7 +18,7 @@ import {
 import { PageContainer } from '@ant-design/pro-components';
 import { history } from '@umijs/max';
 import type { InputRef } from 'antd';
-import { Button, Dropdown, Modal, Input, Menu, Space, Table, Tag, Typography } from 'antd';
+import { Button, Dropdown, Modal, Input, Menu, Space, Table, Tag, Typography, Tabs } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/lib/table/interface';
 import moment from 'moment';
@@ -59,6 +59,42 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
+interface Type {
+  type_id: number;
+  name: string;
+  icon: string;
+}
+
+// Fungsi untuk menghapus duplikat dari array
+function removeDuplicates(array: Type[]): Type[] {
+  const result: Type[] = [];
+  const seen: Set<string> = new Set();
+  for (const item of array) {
+    // Ubah item menjadi string
+    const itemString = JSON.stringify(item);
+    // Jika item belum ada di set, tambahkan ke result dan set
+    if (!seen.has(itemString)) {
+      result.push(item);
+      seen.add(itemString);
+    }
+  }
+  return result;
+}
+function getTypes(array: any[]): Type[] {
+  let types: Type[] = [];
+  // Looping setiap elemen array
+  for (const element of array) {
+    // Ambil objek jenis dari elemen
+    const type: Type = element.Nebula_Node_Type;
+    // Masukkan ke array types
+    types.push(type);
+  }
+  // Hapus duplikat dari array types
+  types = removeDuplicates(types);
+  // Return array types
+  return types;
+}
+
 const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused, counter }) => {
   const [dataDevice, setDataDevice] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -74,6 +110,8 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
   const [listDownlink, setListDownlink] = React.useState<any[]>([]);
   const [modalInterval, setModalInterval] = React.useState(false);
   const [modalViewDetail, setModalViewDetail] = React.useState(false);
+  const [listType, setListType] = React.useState<any[]>([]);
+  const [typeId, setSelectedTypeid] = React.useState(0);
 
   const getData = async () => {
     setLoading(true);
@@ -88,6 +126,11 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
       });
       setDataDevice(data.data);
       setDataFull(data.data);
+      const _l = getTypes(data.data);
+      setListType(_l);
+      if (_l.length > 0) {
+        setSelectedTypeid(_l[0].type_id);
+      }
     }
   };
 
@@ -278,6 +321,24 @@ const ListNode: React.FC<{ isFocused: boolean; counter: number }> = ({ isFocused
           setModalViewDetail(false);
         }}
         typeName={queryParsed.node_type_name}
+      />
+      <Tabs
+        activeKey={typeId.toString()}
+        // onChange={onChange}
+        onChange={(e) => {
+          setSelectedTypeid(parseInt(e));
+        }}
+        items={listType.map((v: any) => {
+          return {
+            label: (
+              <Space align="center">
+                <img width={24} src={v.icon} alt={v.name} />
+                {v.name}
+              </Space>
+            ),
+            key: v.type_id.toString(),
+          };
+        })}
       />
       <Table dataSource={dataDevice} loading={loading} scroll={{ x: 1300 }}>
         {/* <Column
